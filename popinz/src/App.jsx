@@ -7,7 +7,7 @@ import EnrollPage from './pages/EnrollPage'
 // Lazy load pages for performance
 const HomePage = lazy(() => import('./pages/HomePage').then(module => ({ default: module.HomePage })))
 const AboutUs = lazy(() => import('./pages/AboutUs').then(module => ({ default: module.AboutUs })))
-const AllCourses = lazy(() => import('./pages/AllCourses').then(module => ({ default: module.AllCourses })))
+const AllCourses = lazy(() => import('./pages/AllCourses'))
 const Blog = lazy(() => import('./pages/Blog'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Shop = lazy(() => import('./pages/Shop'))

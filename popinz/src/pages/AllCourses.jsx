@@ -7,8 +7,9 @@ import { useState } from "react";
 
 const categories = ["All", "Beginner", "Intermediate", "Advanced", "Specialty"];
 
-export function AllCourses() {
+export default function AllCourses() {
     const [filter, setFilter] = useState("All");
+    const [selectedCourse, setSelectedCourse] = useState(null);
     const navigate = useNavigate();
 
     const filteredCourses = filter === "All"
@@ -118,7 +119,7 @@ export function AllCourses() {
             <section className="sticky top-20 z-40 bg-[#FFF8F0]/80 backdrop-blur-md border-b border-[#4E342E]/5 py-6">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-wrap justify-center gap-3">
-                        {categories.map((cat) => (
+                        {["All", "Foundation", "Advance"].map((cat) => (
                             <button
                                 key={cat}
                                 onClick={() => setFilter(cat)}
@@ -138,7 +139,7 @@ export function AllCourses() {
             <section className="py-20 px-6 max-w-7xl mx-auto">
                 <motion.div
                     layout
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+                    className="grid grid-cols-1 lg:grid-cols-2 gap-10"
                 >
                     <AnimatePresence mode="popLayout">
                         {filteredCourses.map((course) => (
@@ -149,8 +150,9 @@ export function AllCourses() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.9 }}
                                 transition={{ duration: 0.5 }}
-                                className="group flex flex-col bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-[#4E342E]/5 h-full cursor-pointer"
+                                className="group flex flex-col bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-[#4E342E]/5 h-full"
                             >
+                                {/* Image Section */}
                                 <div className="h-64 overflow-hidden relative">
                                     <img
                                         src={course.image}
@@ -162,29 +164,59 @@ export function AllCourses() {
                                     <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-md">
                                         <span className="text-xs font-black text-red-500 uppercase tracking-widest">{course.level}</span>
                                     </div>
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                    <div className="absolute bottom-6 left-6 text-white translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                        <p className="font-['Dancing_Script',cursive] text-2xl">{course.tagline}</p>
+                                    </div>
                                 </div>
 
+                                {/* Content Section */}
                                 <div className="p-8 flex flex-col flex-1">
-                                    <p className="text-red-500 text-sm font-bold uppercase tracking-widest mb-2">{course.category}</p>
-                                    <h3 className="text-2xl font-black text-[#4E342E] mb-4 group-hover:text-red-500 transition-colors line-clamp-1">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <p className="text-red-500 text-sm font-bold uppercase tracking-widest">{course.category}</p>
+                                        <span className="text-xs font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded-md">{course.duration}</span>
+                                    </div>
+
+                                    <h3 className="text-3xl font-black text-[#4E342E] mb-4 group-hover:text-red-500 transition-colors leading-tight">
                                         {course.title}
                                     </h3>
-                                    <p className="text-gray-600 text-sm leading-relaxed mb-8 flex-1 line-clamp-2">
-                                        {course.desc}
+
+                                    <p className="text-gray-600 text-sm leading-relaxed mb-8 flex-1">
+                                        {course.description}
                                     </p>
 
-                                    <div className="flex items-center justify-between pt-6 border-t border-gray-100">
-                                        <div className="flex flex-col leading-none">
-                                            <span className="text-[10px] text-gray-400 uppercase font-bold tracking-widest mb-1">Tuition</span>
-                                            <span className="text-2xl font-black text-[#4E342E]">{course.price}</span>
+                                    <div className="mt-auto pt-6 border-t border-gray-100 space-y-6">
+                                        {/* Pricing Display */}
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex flex-col">
+                                                <span className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Online</span>
+                                                <span className="text-xl font-black text-[#4E342E]">₹{course.pricing.online}/-</span>
+                                            </div>
+                                            <div className="w-px h-8 bg-gray-200" />
+                                            <div className="flex flex-col text-right">
+                                                <span className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Offline</span>
+                                                <span className="text-xl font-black text-[#4E342E]">₹{course.pricing.offline}/-</span>
+                                            </div>
                                         </div>
-                                        <button
-                                            onClick={() => navigate(`/enroll/${course.id}`)}
-                                            className="bg-[#4E342E] text-white px-5 py-2.5 rounded-xl font-bold text-xs hover:bg-red-500 shadow-lg hover:shadow-red-500/20 transition-all active:scale-95 cursor-pointer"
-                                        >
-                                            Enroll Now
-                                        </button>
+
+                                        {/* Dual Buttons */}
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <button
+                                                onClick={() => setSelectedCourse(course)}
+                                                className="w-full bg-amber-100 text-[#4E342E] px-4 py-3 rounded-xl font-bold text-sm hover:bg-amber-200 transition-colors active:scale-95 cursor-pointer"
+                                            >
+                                                View Content
+                                            </button>
+                                            <button
+                                                onClick={() => navigate(`/enroll/${course.id}`)}
+                                                className="w-full bg-[#4E342E] text-white px-4 py-3 rounded-xl font-bold text-sm hover:bg-red-500 shadow-lg hover:shadow-red-500/20 transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2 group/btn"
+                                            >
+                                                Enroll Now
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </motion.div>
@@ -192,6 +224,87 @@ export function AllCourses() {
                     </AnimatePresence>
                 </motion.div>
             </section>
+
+            {/* Syllabus Modal */}
+            <AnimatePresence>
+                {selectedCourse && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setSelectedCourse(null)}
+                            className="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            className="bg-white w-full max-w-2xl rounded-[2.5rem] overflow-hidden shadow-2xl relative z-10 max-h-[85vh] flex flex-col"
+                        >
+                            {/* Colorful Header */}
+                            <div className="bg-gradient-to-r from-red-500 via-orange-500 to-amber-500 p-8 relative overflow-hidden shrink-0">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
+                                <div className="absolute bottom-0 left-0 w-24 h-24 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-xl" />
+
+                                <button
+                                    onClick={() => setSelectedCourse(null)}
+                                    className="absolute top-6 right-6 p-2 bg-white/20 hover:bg-white/30 rounded-full text-white transition-colors cursor-pointer"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+
+                                <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-white text-[10px] font-black uppercase tracking-widest mb-3 border border-white/20">
+                                    {selectedCourse.category} Syllabus
+                                </span>
+                                <h3 className="text-3xl md:text-4xl font-black text-white mb-1 leading-tight">What You'll Learn</h3>
+                                <p className="text-white/90 font-medium">Master these delicious skills 🍰</p>
+                            </div>
+
+                            {/* Scrollable Content */}
+                            <div className="p-8 overflow-y-auto custom-scrollbar bg-[#FFF8F0]">
+                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    {selectedCourse.syllabus.map((topic, index) => (
+                                        <motion.li
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: index * 0.05 }}
+                                            key={index}
+                                            className="flex items-center gap-3 bg-white p-4 rounded-2xl shadow-sm border border-orange-100 hover:border-orange-300 transition-colors group"
+                                        >
+                                            <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg shadow-inner shrink-0 ${index % 3 === 0 ? 'bg-red-100 text-red-500' :
+                                                index % 3 === 1 ? 'bg-orange-100 text-orange-500' :
+                                                    'bg-amber-100 text-amber-500'
+                                                }`}>
+                                                {index % 4 === 0 ? '🎂' : index % 4 === 1 ? '🧁' : index % 4 === 2 ? '🍩' : '🥯'}
+                                            </div>
+                                            <span className="font-bold text-gray-700 text-sm group-hover:text-[#4E342E] transition-colors">{topic}</span>
+                                        </motion.li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* Footer */}
+                            <div className="p-6 bg-white border-t border-gray-100 shrink-0 flex justify-between items-center gap-4">
+                                <div className="hidden sm:block">
+                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Pricing</p>
+                                    <p className="text-[#4E342E] font-black text-lg">
+                                        ₹{selectedCourse.pricing.online} <span className="text-xs font-medium text-gray-400">Online</span>
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={() => navigate(`/enroll/${selectedCourse.id}`)}
+                                    className="flex-1 sm:flex-none bg-[#4E342E] text-white px-8 py-3.5 rounded-xl font-bold hover:bg-red-500 shadow-xl hover:shadow-red-500/20 transition-all active:scale-95 cursor-pointer"
+                                >
+                                    Enroll in this Course
+                                </button>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
 
             <Faq />
         </div>

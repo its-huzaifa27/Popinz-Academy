@@ -1,4 +1,3 @@
-```javascript
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -61,9 +60,15 @@ export default function EnrollPage() {
                                                 </span>
                                                 <span className="text-gray-400 text-sm font-medium">• {course.duration}</span>
                                             </div>
-                                            <div className="pt-6 border-t border-gray-100 flex items-center justify-between">
-                                                <span className="text-gray-400 font-black uppercase text-xs tracking-widest">Enrollment Fee</span>
-                                                <span className="text-3xl font-black text-red-500">{course.price}</span>
+                                            <div className="pt-6 border-t border-gray-100 space-y-4">
+                                                <div className="flex justify-between items-center">
+                                                    <span className="text-gray-400 font-black uppercase text-xs tracking-widest">Online</span>
+                                                    <span className="text-2xl font-black text-[#4E342E]">₹{course.pricing.online}</span>
+                                                </div>
+                                                <div className="flex justify-between items-center">
+                                                    <span className="text-gray-400 font-black uppercase text-xs tracking-widest">Offline</span>
+                                                    <span className="text-2xl font-black text-red-500">₹{course.pricing.offline}</span>
+                                                </div>
                                             </div>
 
                                             <button
@@ -78,16 +83,16 @@ export default function EnrollPage() {
                                     {/* Right: Detailed Form */}
                                     <div className="lg:col-span-2">
                                         <div className="bg-white rounded-[3rem] p-10 lg:p-12 shadow-2xl border border-red-50">
-                                            <h2 className="text-4xl font-black text-[#4E342E] mb-8">Complete Your Enrollment</h2>
+                                            <h2 className="text-4xl font-black text-[#4E342E] mb-2">Secure Your Spot</h2>
+                                            <p className="text-gray-500 font-medium mb-8">Enrolling in: <span className="text-red-500 font-bold">{course.title}</span></p>
 
                                             <form className="space-y-8">
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                                     <div className="space-y-2">
-                                                        <label className="text-xs font-black text-gray-400 uppercase tracking-widest px-2">Preferred Batch</label>
+                                                        <label className="text-xs font-black text-gray-400 uppercase tracking-widest px-2">Mode of Learning</label>
                                                         <select className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-transparent focus:border-red-500 focus:outline-none transition-all font-medium appearance-none cursor-pointer">
-                                                            <option>Morning Batch (10 AM - 1 PM)</option>
-                                                            <option>Afternoon Batch (2 PM - 5 PM)</option>
-                                                            <option>Evening Batch (6 PM - 9 PM)</option>
+                                                            <option value="online">Online Class (₹{course.pricing.online})</option>
+                                                            <option value="offline">Offline Class (₹{course.pricing.offline})</option>
                                                         </select>
                                                     </div>
                                                     <div className="space-y-2">
@@ -164,4 +169,3 @@ export default function EnrollPage() {
         </div>
     );
 }
-```
