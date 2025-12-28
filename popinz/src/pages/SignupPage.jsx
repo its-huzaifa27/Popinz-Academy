@@ -33,6 +33,7 @@ export default function SignupPage() {
             if (response.ok) {
                 localStorage.setItem("authToken", data.token);
                 localStorage.setItem("userInfo", JSON.stringify(data));
+                window.dispatchEvent(new Event("authChange"));
                 navigate('/all-courses');
             } else {
                 alert(data.message || "Signup failed");

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "../components/Header";
-import { coursesData } from "../data/coursesData";
+
 
 export default function EnrollPage() {
     const { courseId } = useParams();
@@ -18,13 +18,27 @@ export default function EnrollPage() {
     };
 
     useEffect(() => {
-        if (courseId) {
-            const selectedCourse = coursesData.find(c => c.id === parseInt(courseId));
-            if (selectedCourse) {
-                setCourse(selectedCourse);
+        const fetchCourse = async () => {
+            if (!courseId) return;
+            try {
+                // Ensure we call the backend
+                const res = await fetch(`http://localhost:5000/api/courses/${courseId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}` // Optional: Send token to seeing locked content if needed
+                    }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    setCourse(data);
+                } else {
+                    console.error("Course not found");
+                }
+            } catch (err) {
+                console.error(err);
             }
-        }
-    }, [courseId]);
+        };
+        fetchCourse();
+    }, [courseId, token]);
 
     // Redirect to login if not authenticated
     if (!token) {
@@ -62,12 +76,8 @@ export default function EnrollPage() {
                                             </div>
                                             <div className="pt-6 border-t border-gray-100 space-y-4">
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-gray-400 font-black uppercase text-xs tracking-widest">Online</span>
-                                                    <span className="text-2xl font-black text-[#4E342E]">₹{course.pricing.online}</span>
-                                                </div>
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-gray-400 font-black uppercase text-xs tracking-widest">Offline</span>
-                                                    <span className="text-2xl font-black text-red-500">₹{course.pricing.offline}</span>
+                                                    <span className="text-gray-400 font-black uppercase text-xs tracking-widest">Price</span>
+                                                    <span className="text-2xl font-black text-[#4E342E]">₹{course.price}</span>
                                                 </div>
                                             </div>
 
