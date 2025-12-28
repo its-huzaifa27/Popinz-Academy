@@ -9,7 +9,6 @@ const categories = ["All", "Beginner", "Intermediate", "Advanced", "Specialty"];
 
 export default function AllCourses() {
     const [filter, setFilter] = useState("All");
-    const [selectedCourse, setSelectedCourse] = useState(null);
     const navigate = useNavigate();
 
     const filteredCourses = filter === "All"
@@ -202,7 +201,7 @@ export default function AllCourses() {
                                         {/* Dual Buttons */}
                                         <div className="grid grid-cols-2 gap-3">
                                             <button
-                                                onClick={() => setSelectedCourse(course)}
+                                                onClick={() => navigate(`/course-content/${course.id}`)}
                                                 className="w-full bg-amber-100 text-[#4E342E] px-4 py-3 rounded-xl font-bold text-sm hover:bg-amber-200 transition-colors active:scale-95 cursor-pointer"
                                             >
                                                 View Content
@@ -224,87 +223,6 @@ export default function AllCourses() {
                     </AnimatePresence>
                 </motion.div>
             </section>
-
-            {/* Syllabus Modal */}
-            <AnimatePresence>
-                {selectedCourse && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setSelectedCourse(null)}
-                            className="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
-                        />
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            className="bg-white w-full max-w-2xl rounded-[2.5rem] overflow-hidden shadow-2xl relative z-10 max-h-[85vh] flex flex-col"
-                        >
-                            {/* Colorful Header */}
-                            <div className="bg-gradient-to-r from-red-500 via-orange-500 to-amber-500 p-8 relative overflow-hidden shrink-0">
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
-                                <div className="absolute bottom-0 left-0 w-24 h-24 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-xl" />
-
-                                <button
-                                    onClick={() => setSelectedCourse(null)}
-                                    className="absolute top-6 right-6 p-2 bg-white/20 hover:bg-white/30 rounded-full text-white transition-colors cursor-pointer"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-
-                                <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-white text-[10px] font-black uppercase tracking-widest mb-3 border border-white/20">
-                                    {selectedCourse.category} Syllabus
-                                </span>
-                                <h3 className="text-3xl md:text-4xl font-black text-white mb-1 leading-tight">What You'll Learn</h3>
-                                <p className="text-white/90 font-medium">Master these delicious skills 🍰</p>
-                            </div>
-
-                            {/* Scrollable Content */}
-                            <div className="p-8 overflow-y-auto custom-scrollbar bg-[#FFF8F0]">
-                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    {selectedCourse.syllabus.map((topic, index) => (
-                                        <motion.li
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: index * 0.05 }}
-                                            key={index}
-                                            className="flex items-center gap-3 bg-white p-4 rounded-2xl shadow-sm border border-orange-100 hover:border-orange-300 transition-colors group"
-                                        >
-                                            <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg shadow-inner shrink-0 ${index % 3 === 0 ? 'bg-red-100 text-red-500' :
-                                                index % 3 === 1 ? 'bg-orange-100 text-orange-500' :
-                                                    'bg-amber-100 text-amber-500'
-                                                }`}>
-                                                {index % 4 === 0 ? '🎂' : index % 4 === 1 ? '🧁' : index % 4 === 2 ? '🍩' : '🥯'}
-                                            </div>
-                                            <span className="font-bold text-gray-700 text-sm group-hover:text-[#4E342E] transition-colors">{topic}</span>
-                                        </motion.li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            {/* Footer */}
-                            <div className="p-6 bg-white border-t border-gray-100 shrink-0 flex justify-between items-center gap-4">
-                                <div className="hidden sm:block">
-                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Pricing</p>
-                                    <p className="text-[#4E342E] font-black text-lg">
-                                        ₹{selectedCourse.pricing.online} <span className="text-xs font-medium text-gray-400">Online</span>
-                                    </p>
-                                </div>
-                                <button
-                                    onClick={() => navigate(`/enroll/${selectedCourse.id}`)}
-                                    className="flex-1 sm:flex-none bg-[#4E342E] text-white px-8 py-3.5 rounded-xl font-bold hover:bg-red-500 shadow-xl hover:shadow-red-500/20 transition-all active:scale-95 cursor-pointer"
-                                >
-                                    Enroll in this Course
-                                </button>
-                            </div>
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
 
             <Faq />
         </div>

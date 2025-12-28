@@ -14,6 +14,8 @@ const Shop = lazy(() => import('./pages/Shop'))
 const LoginPage = lazy(() => import('./pages/LoginPage'))
 const SignupPage = lazy(() => import('./pages/SignupPage'))
 
+const CourseContentPage = lazy(() => import('./pages/CourseContentPage'))
+
 function App() {
   useEffect(() => {
     const lenis = new Lenis({
@@ -47,6 +49,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/all-courses" element={<AllCourses />} />
+          <Route path="/course-content/:courseId" element={<CourseContentPage />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/shop" element={<Shop />} />
