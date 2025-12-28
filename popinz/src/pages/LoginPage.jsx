@@ -17,6 +17,12 @@ export default function LoginPage() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
+        if (!formData.email.endsWith('@gmail.com')) {
+            alert("Please use a @gmail.com email address.");
+            return;
+        }
+
         try {
             const response = await fetch('http://localhost:5000/api/auth/login', {
                 method: 'POST',

@@ -43,6 +43,34 @@ const registerUser = async (req, res) => {
     const { fullName, email, password, phone } = req.body;
 
     try {
+        // Validation
+        if (!email.endsWith('@gmail.com')) {
+            res.status(400).json({ message: 'Only @gmail.com email addresses are allowed' });
+            return;
+        }
+
+        // Password validation: Min 8 chars, 1 uppercase, 1 special char
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9]).{8,}$/;
+        // Note: The user said "8 digits... 1 letter capital and 1 special char".
+        // The regex above checks for:
+        // (?=.*[A-Z]) -> At least one uppercase
+        // (?=.*[!@#$&*]) -> At least one special char
+        // (?=.*[0-9]) -> At least one number (interpreting "digits" as numbers, usually required for strong passwords)
+        // .{8,} -> At least 8 characters long
+        // If "8 digits" strictly means 8 NUMBER digits + others, it would be much harder. standard interpretation is length 8.
+
+        if (!passwordRegex.test(password)) {
+            res.status(400).json({ message: 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.' });
+            return;
+        }
+
+        // Phone validation: Must be exactly 10 digits
+        const phoneRegex = /^\d{10}$/;
+        if (!phoneRegex.test(phone)) {
+            res.status(400).json({ message: 'Please enter a valid 10-digit mobile number' });
+            return;
+        }
+
         const userExists = await User.findOne({ email });
 
         if (userExists) {

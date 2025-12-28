@@ -19,6 +19,26 @@ export default function SignupPage() {
 
     const handleSignup = async (e) => {
         e.preventDefault();
+
+        // Client-side validation
+        if (!formData.email.endsWith('@gmail.com')) {
+            alert("Please use a @gmail.com email address.");
+            return;
+        }
+
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9]).{8,}$/;
+        if (!passwordRegex.test(formData.password)) {
+            alert("Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.");
+            return;
+        }
+
+        // Phone validation
+        const phoneRegex = /^\d{10}$/;
+        if (!phoneRegex.test(formData.phone)) {
+            alert("Please enter a valid 10-digit mobile number.");
+            return;
+        }
+
         try {
             const response = await fetch('http://localhost:5000/api/auth/signup', {
                 method: 'POST',

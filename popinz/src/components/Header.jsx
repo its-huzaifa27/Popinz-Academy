@@ -57,12 +57,24 @@ export function Header() {
                 {/* CTA Button */}
                 <div className="flex-shrink-0 flex gap-4 items-center">
                     {localStorage.getItem('authToken') ? (
-                        <button
-                            onClick={() => navigate('/dashboard')}
-                            className="bg-[#4E342E] hover:bg-[#3E2723] text-white px-5 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 active:scale-95 text-xs md:text-sm cursor-pointer"
-                        >
-                            My Dashboard
-                        </button>
+                        <div className="flex gap-2 items-center">
+                            <button
+                                onClick={() => navigate('/dashboard')}
+                                className="bg-[#4E342E] hover:bg-[#3E2723] text-white px-5 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 active:scale-95 text-xs md:text-sm cursor-pointer"
+                            >
+                                My Dashboard
+                            </button>
+                            <button
+                                onClick={() => {
+                                    localStorage.removeItem('authToken');
+                                    localStorage.removeItem('userInfo');
+                                    navigate('/login');
+                                }}
+                                className="text-red-500 font-bold hover:text-red-700 transition-colors text-xs md:text-sm cursor-pointer ml-2"
+                            >
+                                Logout
+                            </button>
+                        </div>
                     ) : (
                         <div className="flex gap-2">
                             <button
