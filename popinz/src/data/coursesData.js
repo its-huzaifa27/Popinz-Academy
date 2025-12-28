@@ -25,7 +25,7 @@ export const coursesData = [
             { title: "Pinata Cake", image: "/images/syllabus/pinata_cake.png" },
             { title: "Non Baked Cake", image: "/images/syllabus/rasmalai_cake.png" },
             { title: "Home Made Cake", image: "/images/syllabus/homemade_cake_user.png" },
-            { title: "Pop Sikels", image: "/images/syllabus/cake_pops.png" },
+            { title: "Pop Sikels", image: "/images/syllabus/pop_sikels_user.jpg" },
             { title: "Cup Cake", image: "/images/syllabus/cupcakes.png" },
             { title: "Cake Pops", image: "/images/syllabus/cake_pops.png" }
         ]
@@ -66,7 +66,7 @@ export const coursesData = [
             { title: "Pineapple Gel Cake", image: "/images/syllabus/pineapple_cake.png" },
             { title: "Vanilla Premix Cake", image: "/images/coursespageimg/courseimg1.png" },
             { title: "Donuts", image: "/images/syllabus/donuts.png" },
-            { title: "Pop Sikels", image: "/images/syllabus/cake_pops.png" },
+            { title: "Pop Sikels", image: "/images/syllabus/pop_sikels_user.jpg" },
             { title: "Cake Pops", image: "/images/syllabus/cake_pops.png" },
             { title: "Chocolate Garnishing", image: "/images/syllabus/brownie.png" }
         ]
