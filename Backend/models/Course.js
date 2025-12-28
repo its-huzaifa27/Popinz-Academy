@@ -26,11 +26,11 @@ const courseSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        price_online: {
-            type: Number,
-            required: true,
+        pricing: {
+            online: { type: Number, required: true },
+            offline: { type: Number, required: true },
         },
-        price_offline: {
+        price: { // Base price for simplified views
             type: Number,
             required: true,
         },

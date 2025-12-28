@@ -1,22 +1,56 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { coursesData } from "../data/coursesData";
+
 import { Header } from "../components/Header";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function CourseContentPage() {
     const { courseId } = useParams();
     const navigate = useNavigate();
-    const course = coursesData.find((c) => c.id === parseInt(courseId));
+    const [course, setCourse] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, []);
+
+        const fetchCourse = async () => {
+            try {
+                // Fetch using the ID from the URL (which is now likely the MongoDB _id)
+                const response = await fetch(`http://localhost:5000/api/courses/${courseId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setCourse(data);
+                } else {
+                    console.error("Course not found");
+                }
+            } catch (error) {
+                console.error("Error fetching course:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCourse();
+    }, [courseId]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[#FFF8F0]">
+                <h2 className="text-2xl font-black text-[#4E342E]">Loading content... 🍰</h2>
+            </div>
+        );
+    }
 
     if (!course) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#FFF8F0]">
                 <h2 className="text-2xl font-black text-[#4E342E]">Course not found! 🍰</h2>
+                <button
+                    onClick={() => navigate('/all-courses')}
+                    className="ml-4 text-red-500 font-bold hover:underline"
+                >
+                    Go Back
+                </button>
             </div>
         );
     }
@@ -55,39 +89,45 @@ export default function CourseContentPage() {
             {/* Content Grid */}
             {/* Content Grid - Uniform Layout */}
             <div className="pb-24 px-6 max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:columns-4 gap-8">
-                    {course.syllabus.map((item, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.05 }}
-                            whileHover={{ y: -5 }}
-                            className="bg-white rounded-[2rem] p-4 shadow-xl hover:shadow-2xl transition-all duration-300 border border-[#4E342E]/5 group cursor-pointer h-full flex flex-col"
-                        >
-                            <div className="aspect-square rounded-[1.5rem] overflow-hidden mb-4 relative bg-gray-50">
-                                <img
-                                    src={item.image}
-                                    alt={item.title}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
-                            </div>
-                            <div className="text-center px-2 pb-2">
-                                <h3 className="font-bold text-[#4E342E] text-lg leading-tight group-hover:text-red-500 transition-colors">
-                                    {item.title}
-                                </h3>
-                            </div>
-                        </motion.div>
-                    ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    {course.syllabus && course.syllabus.length > 0 ? (
+                        course.syllabus.map((item, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.05 }}
+                                whileHover={{ y: -5 }}
+                                className="bg-white rounded-[2rem] p-4 shadow-xl hover:shadow-2xl transition-all duration-300 border border-[#4E342E]/5 group cursor-pointer h-full flex flex-col"
+                            >
+                                <div className="aspect-square rounded-[1.5rem] overflow-hidden mb-4 relative bg-gray-50">
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
+                                </div>
+                                <div className="text-center px-2 pb-2">
+                                    <h3 className="font-bold text-[#4E342E] text-lg leading-tight group-hover:text-red-500 transition-colors">
+                                        {item.title}
+                                    </h3>
+                                </div>
+                            </motion.div>
+                        ))
+                    ) : (
+                        <div className="col-span-full text-center py-10">
+                            <p className="text-gray-500 text-lg">Detailed syllabus content coming soon!</p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Bottom CTA */}
                 <div className="mt-16 text-center">
                     <p className="text-gray-400 font-bold uppercase tracking-widest mb-4 text-xs">Ready to start baking?</p>
                     <button
-                        onClick={() => navigate(`/enroll/${course.id}`)}
+                        onClick={() => navigate(`/enroll/${course._id}`)}
                         className="bg-[#4E342E] text-white px-10 py-4 rounded-2xl font-black text-lg hover:bg-red-500 shadow-xl hover:shadow-red-500/20 transition-all active:scale-95 cursor-pointer flex items-center gap-3 mx-auto"
                     >
                         Enroll in this Course

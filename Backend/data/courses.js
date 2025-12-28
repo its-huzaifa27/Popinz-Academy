@@ -1,13 +1,16 @@
 const courses = [
     {
-        title: "Foundation Baking Course",
+        title: "Foundation Cake Baking",
         category: "Foundation",
         level: "Beginner",
         tagline: "Start Your Sweet Journey",
         description: "Perfect for beginners! Learn the art of baking from scratch with our comprehensive foundation course covering cakes, sponges, and essential techniques.",
         duration: "2 Weeks (4 Days/Week)",
-        price_online: 499,
-        price_offline: 1499,
+        price: 499, // Base price 
+        pricing: {
+            online: 499,
+            offline: 1499
+        },
         image: "/images/coursespageimg/courseimg1.png",
         syllabus: [
             { title: "Introduction Of Cake Baking", image: "/images/coursespageimg/courseimg1.png" },
@@ -28,14 +31,17 @@ const courses = [
         ]
     },
     {
-        title: "Advanced Masterclass",
+        title: "Advance Cake Baking",
         category: "Advance",
         level: "Pro",
         tagline: "Transform your PASSION to Business..",
         description: "Elevate your skills to a professional level. Master intricate designs, wedding cakes, fondant work, and advanced chocolate techniques.",
         duration: "1 Month (4 Days/Week)",
-        price_online: 999,
-        price_offline: 2999,
+        price: 999, // Base price
+        pricing: {
+            online: 999,
+            offline: 2999
+        },
         image: "/images/coursespageimg/cakebaker3.png",
         syllabus: [
             { title: "Introduction Of Cake Baking", image: "/images/coursespageimg/courseimg1.png" },

@@ -57,21 +57,37 @@ export default function DashboardPage() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mb-12"
+                    className="mb-12 flex justify-between items-end"
                 >
-                    <h1 className="text-4xl md:text-5xl font-black text-[#4E342E] mb-4">
-                        Welcome back, <span className="text-[#E53935]">{user?.fullName.split(' ')[0]}</span>! 👋
-                    </h1>
-                    <p className="text-xl text-gray-500 font-medium">
-                        Ready to bake something amazing today?
-                    </p>
+                    <div>
+                        <h1 className="text-4xl md:text-5xl font-black text-[#4E342E] mb-4">
+                            Welcome back, <span className="text-[#E53935]">{user?.fullName.split(' ')[0]}</span>! 👋
+                        </h1>
+                        <p className="text-xl text-gray-500 font-medium">
+                            Ready to bake something amazing today?
+                        </p>
+                    </div>
+                    <button
+                        onClick={() => {
+                            localStorage.removeItem('authToken');
+                            navigate('/');
+                        }}
+                        className="hidden md:block px-6 py-2 bg-white text-[#4E342E] font-bold rounded-xl shadow-sm hover:bg-gray-50 border border-gray-100 transition-colors"
+                    >
+                        Sign Out
+                    </button>
                 </motion.div>
 
                 {/* Enrolled Courses Grid */}
-                <h2 className="text-2xl font-black text-[#4E342E] mb-6 flex items-center gap-3">
-                    <span className="w-2 h-8 bg-[#E53935] rounded-full block"></span>
-                    Your Enrolled Courses
-                </h2>
+                <div className="flex items-center justify-between mb-8">
+                    <h2 className="text-2xl font-black text-[#4E342E] flex items-center gap-3">
+                        <span className="w-2 h-8 bg-[#E53935] rounded-full block"></span>
+                        Your Enrolled Courses
+                    </h2>
+                    <span className="text-sm font-bold text-gray-400 bg-white px-4 py-2 rounded-full shadow-sm">
+                        {user?.enrolledCourses?.length || 0} Courses Active
+                    </span>
+                </div>
 
                 {user?.enrolledCourses && user.enrolledCourses.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "../components/Header";
-import { coursesData } from "../data/coursesData";
+
 
 export default function EnrollPage() {
     const { courseId } = useParams();
@@ -19,12 +19,24 @@ export default function EnrollPage() {
 
     useEffect(() => {
         if (courseId) {
-            const selectedCourse = coursesData.find(c => c.id === parseInt(courseId));
-            if (selectedCourse) {
-                setCourse(selectedCourse);
-            }
+            const fetchCourse = async () => {
+                try {
+                    const response = await fetch(`http://localhost:5000/api/courses/${courseId}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        setCourse(data);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch course for enrollment", error);
+                }
+            };
+            fetchCourse();
         }
-    }, [courseId]);
+    }, [courseId, token]);
 
     // Redirect to login if not authenticated
     if (!token) {
