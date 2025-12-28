@@ -11,28 +11,39 @@ const courseSchema = mongoose.Schema(
             enum: ['Foundation', 'Advance'],
             required: true,
         },
-        mode: {
+        level: {
             type: String,
-            enum: ['Online', 'Offline'],
             required: true,
         },
-        price: {
-            type: Number,
-            required: true,
+        tagline: {
+            type: String,
         },
         description: {
             type: String,
             required: true,
         },
+        duration: {
+            type: String,
+            required: true,
+        },
+        price_online: {
+            type: Number,
+            required: true,
+        },
+        price_offline: {
+            type: Number,
+            required: true,
+        },
         syllabus: [
             {
-                type: String,
+                title: { type: String, required: true },
+                image: { type: String, required: true },
             },
         ],
         videoUrl: {
-            type: String, // This will be the YouTube Unlisted ID or URL
-            required: true,
-            select: false, // Don't return this by default!
+            type: String,
+            required: false, // Optional for now
+            select: false,
         },
         image: {
             type: String,

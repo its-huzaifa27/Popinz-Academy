@@ -86,7 +86,30 @@ export default function EnrollPage() {
                                             <h2 className="text-4xl font-black text-[#4E342E] mb-2">Secure Your Spot</h2>
                                             <p className="text-gray-500 font-medium mb-8">Enrolling in: <span className="text-red-500 font-bold">{course.title}</span></p>
 
-                                            <form className="space-y-8">
+                                            <form className="space-y-8" onSubmit={async (e) => {
+                                                e.preventDefault();
+                                                try {
+                                                    const res = await fetch('http://localhost:5000/api/courses/enroll', {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                            'Authorization': `Bearer ${token}`
+                                                        },
+                                                        body: JSON.stringify({ courseId: course._id }) // Backend expects courseId
+                                                    });
+                                                    const data = await res.json();
+
+                                                    if (res.ok) {
+                                                        alert("Enrollment Successful! Welcome to the class.");
+                                                        navigate('/dashboard');
+                                                    } else {
+                                                        alert(data.message || "Enrollment failed. You might already be enrolled.");
+                                                    }
+                                                } catch (err) {
+                                                    console.error(err);
+                                                    alert("Connection failed.");
+                                                }
+                                            }}>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                                     <div className="space-y-2">
                                                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest px-2">Mode of Learning</label>
@@ -99,8 +122,9 @@ export default function EnrollPage() {
                                                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest px-2">Phone Number</label>
                                                         <input
                                                             type="tel"
-                                                            placeholder="+91 00000 00000"
-                                                            className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-transparent focus:border-red-500 focus:outline-none transition-all font-medium"
+                                                            placeholder="Confirmed from Profile"
+                                                            disabled
+                                                            className="w-full px-6 py-4 rounded-2xl bg-gray-100 border border-transparent font-medium cursor-not-allowed text-gray-400"
                                                         />
                                                     </div>
                                                 </div>
@@ -135,8 +159,8 @@ export default function EnrollPage() {
                                                         </svg>
                                                     </div>
                                                     <p className="text-amber-800 text-sm font-medium leading-relaxed">
-                                                        Payment will be processed during the first session at our academy.
-                                                        Enrollment here only reserves your seat in the preferred batch.
+                                                        Payment will be processed during the first session at our academy (or coordinated via WhatsApp for Online).
+                                                        Enrollment here reserves your seat.
                                                     </p>
                                                 </div>
 

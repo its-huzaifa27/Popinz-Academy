@@ -55,13 +55,30 @@ export function Header() {
                 </div>
 
                 {/* CTA Button */}
-                <div className="flex-shrink-0">
-                    <button
-                        onClick={() => navigate('/')}
-                        className="btn-universal hover:bg-red-700 text-white px-5 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 active:scale-95 text-xs md:text-sm cursor-pointer"
-                    >
-                        Join Today
-                    </button>
+                <div className="flex-shrink-0 flex gap-4 items-center">
+                    {localStorage.getItem('authToken') ? (
+                        <button
+                            onClick={() => navigate('/dashboard')}
+                            className="bg-[#4E342E] hover:bg-[#3E2723] text-white px-5 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 active:scale-95 text-xs md:text-sm cursor-pointer"
+                        >
+                            My Dashboard
+                        </button>
+                    ) : (
+                        <div className="flex gap-2">
+                            <button
+                                onClick={() => navigate('/login')}
+                                className="text-red-500 font-black hover:text-red-700 transition-colors cursor-pointer"
+                            >
+                                Login
+                            </button>
+                            <button
+                                onClick={() => navigate('/signup')}
+                                className="btn-universal hover:bg-red-700 text-white px-5 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 active:scale-95 text-xs md:text-sm cursor-pointer"
+                            >
+                                Join Today
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </header>

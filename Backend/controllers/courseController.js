@@ -1,3 +1,4 @@
+import User from '../models/User.js';
 import Course from '../models/Course.js';
 
 // @desc    Fetch all courses
@@ -20,10 +21,6 @@ const getCourseById = async (req, res) => {
         const course = await Course.findById(req.params.id);
 
         if (course) {
-            // Logic: If user is "enrolled" or "admin", return videoUrl
-            // For now, checks if user is Admin or in Special List (from Middleware)
-            // Later, we add "Enrolled" check here.
-
             let isEnrolled = false;
 
             // Check if user is logged in
@@ -31,8 +28,10 @@ const getCourseById = async (req, res) => {
                 // Check if Admin
                 if (req.user.role === 'admin') isEnrolled = true;
 
-                // Check if enrolled (Future logic)
-                // if(req.user.enrolledCourses.includes(course._id)) isEnrolled = true;
+                // Check if enrolled
+                if (req.user.enrolledCourses && req.user.enrolledCourses.includes(course._id)) {
+                    isEnrolled = true;
+                }
 
                 // Check "Test User" override
                 if (process.env.ADMIN_EMAILS && process.env.ADMIN_EMAILS.split(',').includes(req.user.email)) {
@@ -45,7 +44,7 @@ const getCourseById = async (req, res) => {
                 const fullCourse = await Course.findById(req.params.id).select('+videoUrl');
                 res.json({ ...fullCourse.toObject(), isLocked: false });
             } else {
-                // Return course WITHOUT videoUrl (public info only)
+                // Return course WITHOUT videoUrl
                 res.json({ ...course.toObject(), videoUrl: null, isLocked: true });
             }
         } else {
@@ -56,4 +55,39 @@ const getCourseById = async (req, res) => {
     }
 };
 
-export { getCourses, getCourseById };
+// @desc    Enroll in a course
+// @route   POST /api/courses/enroll
+// @access  Private
+const enrollCourse = async (req, res) => {
+    const { courseId } = req.body;
+
+    try {
+        const user = await User.findById(req.user._id);
+
+        if (user) {
+            const course = await Course.findById(courseId);
+            if (!course) {
+                res.status(404);
+                throw new Error('Course not found');
+            }
+
+            // Check if already enrolled
+            if (user.enrolledCourses.includes(courseId)) {
+                res.status(400);
+                throw new Error('User already enrolled in this course');
+            }
+
+            user.enrolledCourses.push(courseId);
+            await user.save();
+
+            res.json({ message: 'Enrollment successful', enrolled: true });
+        } else {
+            res.status(404);
+            throw new Error('User not found');
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export { getCourses, getCourseById, enrollCourse };

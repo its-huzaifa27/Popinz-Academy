@@ -6,11 +6,39 @@ import { Header } from "../components/Header";
 export default function LoginPage() {
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleLogin = async (e) => {
         e.preventDefault();
-        const fakeToken = "mock_token_123";
-        localStorage.setItem("authToken", fakeToken);
-        navigate('/all-courses');
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem("authToken", data.token);
+                localStorage.setItem("userInfo", JSON.stringify(data));
+                navigate('/dashboard');
+            } else {
+                alert(data.message || "Login failed");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Something went wrong. Is the backend running?");
+        }
     };
 
     return (
@@ -43,6 +71,9 @@ export default function LoginPage() {
                                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest px-2">Email Address</label>
                                         <input
                                             type="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
                                             required
                                             placeholder="bakery@example.com"
                                             className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-transparent focus:border-red-500 focus:outline-none transition-all font-medium"
@@ -53,10 +84,23 @@ export default function LoginPage() {
                                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest px-2">Password</label>
                                         <input
                                             type="password"
+                                            name="password"
+                                            value={formData.password}
+                                            onChange={handleChange}
                                             required
                                             placeholder="••••••••"
                                             className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-transparent focus:border-red-500 focus:outline-none transition-all font-medium"
                                         />
+                                    </div>
+
+                                    <div className="flex justify-end">
+                                        <button
+                                            type="button"
+                                            onClick={() => navigate('/forgot-password')}
+                                            className="text-sm font-bold text-gray-400 hover:text-[#E53935] cursor-pointer"
+                                        >
+                                            Forgot Password?
+                                        </button>
                                     </div>
 
                                     <button

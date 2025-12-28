@@ -13,6 +13,9 @@ const Contact = lazy(() => import('./pages/Contact'))
 const Shop = lazy(() => import('./pages/Shop'))
 const LoginPage = lazy(() => import('./pages/LoginPage'))
 const SignupPage = lazy(() => import('./pages/SignupPage'))
+const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'))
+const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage'))
+const DashboardPage = lazy(() => import('./pages/DashboardPage'))
 
 const CourseContentPage = lazy(() => import('./pages/CourseContentPage'))
 
@@ -55,6 +58,9 @@ function App() {
           <Route path="/shop" element={<Shop />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/enroll/:courseId?" element={<EnrollPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>

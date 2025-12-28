@@ -6,11 +6,41 @@ import { Header } from "../components/Header";
 export default function SignupPage() {
     const navigate = useNavigate();
 
-    const handleSignup = (e) => {
+    const [formData, setFormData] = useState({
+        fullName: '',
+        email: '',
+        phone: '',
+        password: ''
+    });
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSignup = async (e) => {
         e.preventDefault();
-        const fakeToken = "mock_token_123";
-        localStorage.setItem("authToken", fakeToken);
-        navigate('/all-courses');
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem("authToken", data.token);
+                localStorage.setItem("userInfo", JSON.stringify(data));
+                navigate('/all-courses');
+            } else {
+                alert(data.message || "Signup failed");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Something went wrong. Is the backend running?");
+        }
     };
 
     return (
@@ -43,6 +73,9 @@ export default function SignupPage() {
                                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest px-2">Full Name</label>
                                         <input
                                             type="text"
+                                            name="fullName"
+                                            value={formData.fullName}
+                                            onChange={handleChange}
                                             required
                                             placeholder="Enter your name"
                                             className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-transparent focus:border-red-500 focus:outline-none transition-all font-medium"
@@ -53,8 +86,24 @@ export default function SignupPage() {
                                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest px-2">Email Address</label>
                                         <input
                                             type="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
                                             required
                                             placeholder="bakery@example.com"
+                                            className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-transparent focus:border-red-500 focus:outline-none transition-all font-medium"
+                                        />
+                                    </div>
+
+                                    <div className="space-y-1">
+                                        <label className="text-xs font-black text-gray-400 uppercase tracking-widest px-2">Mobile Number</label>
+                                        <input
+                                            type="tel"
+                                            name="phone"
+                                            value={formData.phone}
+                                            onChange={handleChange}
+                                            required
+                                            placeholder="Enter your mobile number"
                                             className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-transparent focus:border-red-500 focus:outline-none transition-all font-medium"
                                         />
                                     </div>
@@ -63,6 +112,9 @@ export default function SignupPage() {
                                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest px-2">Password</label>
                                         <input
                                             type="password"
+                                            name="password"
+                                            value={formData.password}
+                                            onChange={handleChange}
                                             required
                                             placeholder="••••••••"
                                             className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-transparent focus:border-red-500 focus:outline-none transition-all font-medium"
