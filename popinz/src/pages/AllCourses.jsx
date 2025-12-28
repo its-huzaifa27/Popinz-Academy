@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "../components/Header";
 import { Faq } from "../components/Faq";
 import { coursesData } from "../data/coursesData";
+import { useState } from "react";
 
 const categories = ["All", "Beginner", "Intermediate", "Advanced", "Specialty"];
 
 export function AllCourses() {
     const [filter, setFilter] = useState("All");
+    const navigate = useNavigate();
 
     const filteredCourses = filter === "All"
         ? coursesData
@@ -177,7 +179,10 @@ export function AllCourses() {
                                             <span className="text-[10px] text-gray-400 uppercase font-bold tracking-widest mb-1">Tuition</span>
                                             <span className="text-2xl font-black text-[#4E342E]">{course.price}</span>
                                         </div>
-                                        <button className="bg-[#4E342E] text-white px-5 py-2.5 rounded-xl font-bold text-xs hover:bg-red-500 shadow-lg hover:shadow-red-500/20 transition-all active:scale-95 cursor-pointer">
+                                        <button
+                                            onClick={() => navigate(`/enroll/${course.id}`)}
+                                            className="bg-[#4E342E] text-white px-5 py-2.5 rounded-xl font-bold text-xs hover:bg-red-500 shadow-lg hover:shadow-red-500/20 transition-all active:scale-95 cursor-pointer"
+                                        >
                                             Enroll Now
                                         </button>
                                     </div>

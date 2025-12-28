@@ -2,12 +2,15 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useEffect, lazy, Suspense } from 'react'
 import Lenis from 'lenis'
 import ScrollToTop from './components/ScrollToTop'
+import EnrollPage from './pages/EnrollPage'
 
 // Lazy load pages for performance
 const HomePage = lazy(() => import('./pages/HomePage').then(module => ({ default: module.HomePage })))
 const AboutUs = lazy(() => import('./pages/AboutUs').then(module => ({ default: module.AboutUs })))
 const AllCourses = lazy(() => import('./pages/AllCourses').then(module => ({ default: module.AllCourses })))
 const Blog = lazy(() => import('./pages/Blog'))
+const Contact = lazy(() => import('./pages/Contact'))
+const Shop = lazy(() => import('./pages/Shop'))
 
 function App() {
   useEffect(() => {
@@ -43,6 +46,9 @@ function App() {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/all-courses" element={<AllCourses />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/enroll/:courseId?" element={<EnrollPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </Suspense>

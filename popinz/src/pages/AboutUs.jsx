@@ -69,7 +69,7 @@ export function AboutUs() {
                         viewport={{ once: true }}
                         className="relative group shrink-0"
                     >
-                        <div className="bg-white p-6 pb-20 shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-gray-100 rounded-sm transform transition-transform group-hover:rotate-0 duration-500">
+                        <div className="bg-white p-6 pb-20 shadow-[0_20px_50px_rgba(0,0,0,0.2)] borde border-gry-100 rounded-sm transform transition-transform group-hover:rotate-0 duration-500">
                             <div className="w-full aspect-square md:w-80 md:h-80 overflow-hidden bg-gray-200">
                                 <img
                                     src="/images/timeline-img/headtimeline.png"
@@ -168,29 +168,19 @@ export function AboutUs() {
                                     >
                                         {/* Year Badge */}
                                         <div
-                                            className="absolute -top-6 -left-6 z-30 w-16 h-16 rounded-full flex items-center justify-center text-white font-black text-lg shadow-lg rotate-[-15deg] group-hover:rotate-0 transition-all duration-500"
+                                            className="absolute -top-6 -left-6 z-30 w-16 h-16 rounded-full flex items-center justify-center text-white font-black text-lg shadow-lg rotate-[-15deg] group-hover:rotate-0 transition-all duration-500 "
                                             style={{ backgroundColor: item.color }}
                                         >
                                             {item.year}
                                         </div>
 
                                         <div
-                                            className="p-4 pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.15)] border-2 rounded-sm transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-[20px_20px_60px_-15px_rgba(0,0,0,0.3)]"
+                                            className="p-4 pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.15)] border-2 rounded-sm transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-[20px_20px_60px_-15px_rgba(0,0,0,0.3)"
                                             style={{
                                                 borderColor: `${item.color}30`,
-                                                backgroundColor: `${item.color}08`, // Very subtle tint
-                                                boxShadow: `0 15px 40px -12px ${item.color}20`,
+                                                backgroundColor: `${item.color}`, // Very subtle tint
+                                                boxShadow: `0 15px 40px -12px ${item.color}`,
                                                 '--hover-shadow': `0 25px 60px -12px ${item.color}40`
-                                            }}
-                                            onMouseEnter={(e) => {
-                                                e.currentTarget.style.boxShadow = e.currentTarget.style.getPropertyValue('--hover-shadow');
-                                                e.currentTarget.style.borderColor = `${item.color}60`;
-                                                e.currentTarget.style.backgroundColor = `${item.color}15`;
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                e.currentTarget.style.boxShadow = `0 15px 40px -12px ${item.color}20`;
-                                                e.currentTarget.style.borderColor = `${item.color}30`;
-                                                e.currentTarget.style.backgroundColor = `${item.color}15`;
                                             }}
                                         >
                                             {/* Photo */}
@@ -224,8 +214,6 @@ export function AboutUs() {
                                                 <h3
                                                     className="text-xl font-bold text-[#4E342E] transition-colors"
                                                     style={{ color: '#4E342E' }}
-                                                    onMouseEnter={(e) => e.currentTarget.style.color = item.color}
-                                                    onMouseLeave={(e) => e.currentTarget.style.color = '#4E342E'}
                                                 >
                                                     {item.title}
                                                 </h3>

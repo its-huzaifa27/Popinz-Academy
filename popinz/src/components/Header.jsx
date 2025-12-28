@@ -8,6 +8,7 @@ export function Header() {
     const navigations = [
         { name: 'Home', path: '/' },
         { name: "All Courses", path: '/all-courses' },
+        { name: "Shop", path: '/shop' },
         { name: "About Us", path: '/about-us' },
         { name: "Blog", path: '/blog' },
         { name: "Contact", path: "/contact" }
@@ -27,14 +28,10 @@ export function Header() {
                 {/* Logo Section */}
                 <Link
                     to="/"
-                    className="flex-shrink-0 flex items-center gap-1 cursor-pointer group"
+                    className="flex-shrink-0 cursor-pointer group"
                 >
-                    <div className="h-[50px] w-[50px] p-2 md:h-[60px] md:w-[60px] overflow-hidden rounded-full border-2 border-red-400 shadow-sm group-hover:scale-105 transition-transform">
-                        <img src="/images/logo.png" alt="Popinz Logo" className="w-full h-full object-cover" />
-                    </div>
-                    <div className="flex flex-col leading-tight">
-                        <span className="font-extrabold text-[#93c123] text-[2px] md:text-[15px] tracking-wid">Cake Bakers</span>
-                        <span className="font-extrabold text-[#f26833] text-xs md:tex-[12px] uppercase tracking-widr"> & Academy</span>
+                    <div className="h-[30px] md:h-[50px] overflow-hidden transition-transform group-hover:scale-105">
+                        <img src="/images/logo2.png" alt="Popinz Logo" className="h-full w-auto object-contain" />
                     </div>
                 </Link>
 

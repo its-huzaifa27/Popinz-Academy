@@ -82,7 +82,7 @@ export function Courses() {
                                         {course.desc}
                                     </p>
                                 </div>
-                                <button className="w-full bg-white hover:bg-red-600 hover:text-white text-red-500 py-2.5 rounded-xl font-bold transition-all shadow-lg hover:shadow-red-500/30 flex items-center justify-center gap-2 group-hover:bg-white group-hover:text-red-600 cursor-pointer">
+                                <button className="w-full bg-white hover:bg-red-600 hover:text-white text-red-500 py-2.5 rounded-xl font-bold transition-all shadow-lg hover:shadow-red-500/30 flex items-center justify-center gap-2 group-hover:bg-white group-hover:text-red-600 cursor-pointer" onClick={() => {navigate('/enroll')}}>
                                     Enroll Now
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 group-hover:translate-x-1 transition-transform">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
