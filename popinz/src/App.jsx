@@ -11,6 +11,8 @@ const AllCourses = lazy(() => import('./pages/AllCourses').then(module => ({ def
 const Blog = lazy(() => import('./pages/Blog'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Shop = lazy(() => import('./pages/Shop'))
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const SignupPage = lazy(() => import('./pages/SignupPage'))
 
 function App() {
   useEffect(() => {
@@ -48,6 +50,8 @@ function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
           <Route path="/enroll/:courseId?" element={<EnrollPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>

@@ -2,8 +2,10 @@ import v1 from "/videos/v1.mp4";
 import v2 from "/videos/v2.mp4";
 import v3 from "/videos/v3.mp4";
 import v4 from "/videos/v4.mp4";
+import { useNavigate } from "react-router-dom";
 
 export function Hero() {
+    const navigate = useNavigate();
     return (
         <section className="relative w-full h-[600px] overflow-hidden">
             {/* Background Videos Grid */}
@@ -39,11 +41,17 @@ export function Hero() {
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                            <button className="bg-red-500 hover:bg-red-600 text-white px-6 py-2.5 rounded-full font-bold text-base transition-all transform hover:-translate-y-1 hover:shadow-lg border-2 border-transparent cursor-pointer">
+                            <button
+                                onClick={() => navigate('/signup')}
+                                className="bg-red-500 hover:bg-red-600 text-white px-6 py-2.5 rounded-full font-bold text-base transition-all transform hover:-translate-y-1 hover:shadow-lg border-2 border-transparent cursor-pointer"
+                            >
                                 Enroll Today
                             </button>
-                            <button className="bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm px-6 py-2.5 rounded-full font-bold text-base transition-all border-2 border-white/30 hover:border-white cursor-pointer">
-                                Join Live Batches
+                            <button
+                                onClick={() => navigate('/login')}
+                                className="bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm px-6 py-2.5 rounded-full font-bold text-base transition-all border-2 border-white/30 hover:border-white cursor-pointer"
+                            >
+                                Login
                             </button>
                         </div>
                     </div>
