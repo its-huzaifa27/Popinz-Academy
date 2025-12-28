@@ -31,6 +31,7 @@ export default function LoginPage() {
             if (response.ok) {
                 localStorage.setItem("authToken", data.token);
                 localStorage.setItem("userInfo", JSON.stringify(data));
+                window.dispatchEvent(new Event("authChange"));
                 navigate('/dashboard');
             } else {
                 alert(data.message || "Login failed");

@@ -2,18 +2,42 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "../components/Header";
 import { Faq } from "../components/Faq";
-import { coursesData } from "../data/coursesData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const categories = ["All", "Beginner", "Intermediate", "Advanced", "Specialty"];
+const categories = ["All", "Foundation", "Advance"];
 
 export default function AllCourses() {
     const [filter, setFilter] = useState("All");
+    const [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/courses');
+                const data = await response.json();
+                setCourses(data);
+            } catch (error) {
+                console.error("Failed to fetch courses", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCourses();
+    }, []);
+
     const filteredCourses = filter === "All"
-        ? coursesData
-        : coursesData.filter(course => course.category === filter);
+        ? courses
+        : courses.filter(course => course.category === filter);
+
+    if (loading) {
+        return (
+            <div className="bg-[#FFF8F0] min-h-screen flex justify-center items-center">
+                <p className="text-2xl font-black text-[#4E342E]">Loading Courses...</p>
+            </div>
+        )
+    }
 
     return (
         <div className="bg-[#FFF8F0] min-h-screen">
@@ -103,7 +127,7 @@ export default function AllCourses() {
                             transition={{ type: "spring", delay: 1.5 }}
                             className="absolute -bottom-6 -left-6 bg-amber-50 text-[#4E342E] p-5 px-8 shadow-[15px_15px_30px_rgba(0,0,0,0.2)] z-30 hidden lg:block border-l-8 border-amber-200"
                         >
-                            <p className="font-['Dancing_Script',cursive] text-4xl font-black">9+ Classes</p>
+                            <p className="font-['Dancing_Script',cursive] text-4xl font-black">{courses.length}+ Classes</p>
                             <p className="text-[10px] uppercase tracking-[0.3em] font-black opacity-50 mt-1">Join the Batch</p>
                         </motion.div>
                     </motion.div>
@@ -118,7 +142,7 @@ export default function AllCourses() {
             <section className="sticky top-20 z-40 bg-[#FFF8F0]/80 backdrop-blur-md border-b border-[#4E342E]/5 py-6">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-wrap justify-center gap-3">
-                        {["All", "Foundation", "Advance"].map((cat) => (
+                        {categories.map((cat) => (
                             <button
                                 key={cat}
                                 onClick={() => setFilter(cat)}
@@ -143,7 +167,7 @@ export default function AllCourses() {
                     <AnimatePresence mode="popLayout">
                         {filteredCourses.map((course) => (
                             <motion.div
-                                key={course.id}
+                                key={course._id}
                                 layout
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
@@ -161,11 +185,11 @@ export default function AllCourses() {
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                     />
                                     <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-md">
-                                        <span className="text-xs font-black text-red-500 uppercase tracking-widest">{course.level}</span>
+                                        <span className="text-xs font-black text-red-500 uppercase tracking-widest">{course.mode}</span>
                                     </div>
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                     <div className="absolute bottom-6 left-6 text-white translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                        <p className="font-['Dancing_Script',cursive] text-2xl">{course.tagline}</p>
+                                        <p className="font-['Dancing_Script',cursive] text-2xl">{course.category} Course</p>
                                     </div>
                                 </div>
 
@@ -173,7 +197,7 @@ export default function AllCourses() {
                                 <div className="p-8 flex flex-col flex-1">
                                     <div className="flex justify-between items-start mb-2">
                                         <p className="text-red-500 text-sm font-bold uppercase tracking-widest">{course.category}</p>
-                                        <span className="text-xs font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded-md">{course.duration}</span>
+                                        <span className="text-xs font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded-md">{course.mode}</span>
                                     </div>
 
                                     <h3 className="text-3xl font-black text-[#4E342E] mb-4 group-hover:text-red-500 transition-colors leading-tight">
@@ -188,26 +212,19 @@ export default function AllCourses() {
                                         {/* Pricing Display */}
                                         <div className="flex items-center justify-between">
                                             <div className="flex flex-col">
-                                                <span className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Online</span>
-                                                <span className="text-xl font-black text-[#4E342E]">₹{course.pricing.online}/-</span>
-                                            </div>
-                                            <div className="w-px h-8 bg-gray-200" />
-                                            <div className="flex flex-col text-right">
-                                                <span className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Offline</span>
-                                                <span className="text-xl font-black text-[#4E342E]">₹{course.pricing.offline}/-</span>
+                                                <span className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Price</span>
+                                                <span className="text-xl font-black text-[#4E342E]">₹{course.price}/-</span>
                                             </div>
                                         </div>
 
-                                        {/* Dual Buttons */}
-                                        <div className="grid grid-cols-2 gap-3">
+                                        {/* Buttons - Depends on Lock Status */}
+                                        <div className="grid grid-cols-1 gap-3">
+                                            {/* Logic: If locked, show Enroll. If unlocked, show View Content */}
+                                            {/* Since the public API returns 'isLocked: true', we rely on checking if token exists or if endpoint returns unlocked data */}
+                                            {/* For now, just Enroll */}
+
                                             <button
-                                                onClick={() => navigate(`/course-content/${course.id}`)}
-                                                className="w-full bg-amber-100 text-[#4E342E] px-4 py-3 rounded-xl font-bold text-sm hover:bg-amber-200 transition-colors active:scale-95 cursor-pointer"
-                                            >
-                                                View Content
-                                            </button>
-                                            <button
-                                                onClick={() => navigate(`/enroll/${course.id}`)}
+                                                onClick={() => navigate(`/enroll/${course._id}`)}
                                                 className="w-full bg-[#4E342E] text-white px-4 py-3 rounded-xl font-bold text-sm hover:bg-red-500 shadow-lg hover:shadow-red-500/20 transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2 group/btn"
                                             >
                                                 Enroll Now
