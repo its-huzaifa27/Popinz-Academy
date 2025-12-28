@@ -53,8 +53,9 @@ export default function CourseContentPage() {
             </div>
 
             {/* Content Grid */}
+            {/* Content Grid - Uniform Layout */}
             <div className="pb-24 px-6 max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:columns-4 gap-8">
                     {course.syllabus.map((item, index) => (
                         <motion.div
                             key={index}
@@ -63,15 +64,15 @@ export default function CourseContentPage() {
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.05 }}
                             whileHover={{ y: -5 }}
-                            className="bg-white rounded-[2rem] p-4 shadow-xl hover:shadow-2xl transition-all duration-300 border border-[#4E342E]/5 group cursor-pointer"
+                            className="bg-white rounded-[2rem] p-4 shadow-xl hover:shadow-2xl transition-all duration-300 border border-[#4E342E]/5 group cursor-pointer h-full flex flex-col"
                         >
-                            <div className="aspect-square rounded-[1.5rem] overflow-hidden mb-4 relative">
+                            <div className="aspect-square rounded-[1.5rem] overflow-hidden mb-4 relative bg-gray-50">
                                 <img
                                     src={item.image}
                                     alt={item.title}
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
                             </div>
                             <div className="text-center px-2 pb-2">
                                 <h3 className="font-bold text-[#4E342E] text-lg leading-tight group-hover:text-red-500 transition-colors">
