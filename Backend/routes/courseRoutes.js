@@ -1,6 +1,6 @@
 import express from 'express';
-import { getCourses, getCourseById, enrollCourse } from '../controllers/courseController.js';
-import { protect } from '../middleware/authMiddleware.js';
+import { getCourses, getCourseById, enrollCourse, createCourse, deleteCourse, manualEnrollCourse } from '../controllers/courseController.js';
+import { protect, admin } from '../middleware/authMiddleware.js';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
@@ -21,6 +21,9 @@ const optionalProtect = async (req, res, next) => {
 };
 
 router.post('/enroll', protect, enrollCourse);
+router.post('/enroll-manual', protect, admin, manualEnrollCourse);
+router.post('/', protect, admin, createCourse);
+router.delete('/:id', protect, admin, deleteCourse);
 router.get('/', getCourses);
 router.get('/:id', optionalProtect, getCourseById);
 

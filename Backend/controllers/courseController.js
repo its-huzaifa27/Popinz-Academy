@@ -90,4 +90,79 @@ const enrollCourse = async (req, res) => {
     }
 }
 
-export { getCourses, getCourseById, enrollCourse };
+// @desc    Create a new course
+// @route   POST /api/courses
+// @access  Private/Admin
+const createCourse = async (req, res) => {
+    try {
+        const { title, image, description, category, duration, onlinePrice, offlinePrice } = req.body;
+
+        const course = new Course({
+            title,
+            image,
+            description,
+            category,
+            duration,
+            pricing: {
+                online: onlinePrice,
+                offline: offlinePrice,
+            },
+            syllabus: [], // Empty initially
+        });
+
+        const createdCourse = await course.save();
+        res.status(201).json(createdCourse);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Delete a course
+// @route   DELETE /api/courses/:id
+// @access  Private/Admin
+const deleteCourse = async (req, res) => {
+    try {
+        const course = await Course.findById(req.params.id);
+
+        if (course) {
+            await Course.deleteOne({ _id: req.params.id });
+            res.json({ message: 'Course removed' });
+        } else {
+            res.status(404);
+            throw new Error('Course not found');
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Manually enroll a user
+// @route   POST /api/courses/enroll-manual
+// @access  Private/Admin
+const manualEnrollCourse = async (req, res) => {
+    const { userId, courseId } = req.body;
+
+    try {
+        const user = await User.findById(userId);
+        const course = await Course.findById(courseId);
+
+        if (!user || !course) {
+            res.status(404);
+            throw new Error('User or Course not found');
+        }
+
+        if (user.enrolledCourses.includes(courseId)) {
+            res.status(400);
+            throw new Error('User already enrolled');
+        }
+
+        user.enrolledCourses.push(courseId);
+        await user.save();
+
+        res.json({ message: `Successfully enrolled ${user.fullName} in ${course.title}` });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export { getCourses, getCourseById, enrollCourse, createCourse, deleteCourse, manualEnrollCourse };

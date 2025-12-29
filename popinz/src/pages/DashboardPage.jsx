@@ -66,6 +66,14 @@ export default function DashboardPage() {
                         <p className="text-xl text-gray-500 font-medium">
                             Ready to bake something amazing today?
                         </p>
+                        {user?.role === 'admin' && (
+                            <button
+                                onClick={() => navigate('/admin-dashboard')}
+                                className="mt-4 px-6 py-2 bg-[#4E342E] text-white font-bold rounded-xl shadow-lg hover:bg-black transition-all"
+                            >
+                                🛡️ Go to Admin Dashboard
+                            </button>
+                        )}
                     </div>
                     <button
                         onClick={() => {
