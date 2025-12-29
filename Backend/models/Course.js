@@ -36,7 +36,9 @@ const courseSchema = mongoose.Schema(
         syllabus: [
             {
                 title: { type: String, required: true },
-                image: { type: String, required: true },
+                image: { type: String, required: false }, // Optional now
+                videoUrl: { type: String, required: false }, // Store YouTube link etc.
+                duration: { type: String, required: false }
             },
         ],
         videoUrl: {

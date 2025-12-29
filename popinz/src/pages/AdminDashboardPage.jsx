@@ -22,6 +22,9 @@ export default function AdminDashboardPage() {
         offlinePrice: ""
     });
     const [enrollData, setEnrollData] = useState({ userId: "", courseId: "" });
+    // Content Management State
+    const [selectedCourseForContent, setSelectedCourseForContent] = useState(null);
+    const [contentForm, setContentForm] = useState({ title: "", videoUrl: "", duration: "" });
 
     useEffect(() => {
         if (!token) {
@@ -127,6 +130,38 @@ export default function AdminDashboardPage() {
         }
     };
 
+    const handleAddContent = async (e) => {
+        e.preventDefault();
+        if (!selectedCourseForContent) return;
+
+        try {
+            const res = await fetch(`http://localhost:5000/api/courses/${selectedCourseForContent._id}/content`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(contentForm)
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                alert("Chapter Added Successfully!");
+                // Update local state to show new chapter immediately
+                const updatedCourse = { ...selectedCourseForContent, syllabus: data.syllabus };
+                setSelectedCourseForContent(updatedCourse);
+                // Also update main list
+                setCourses(courses.map(c => c._id === updatedCourse._id ? updatedCourse : c));
+                setContentForm({ title: "", videoUrl: "", duration: "" });
+            } else {
+                alert("Failed to add content: " + data.message);
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error adding content");
+        }
+    };
+
     if (loading) {
         return (
             <div className="bg-[#FFF8F0] min-h-screen flex items-center justify-center">
@@ -203,83 +238,176 @@ export default function AdminDashboardPage() {
 
                     {/* COURSES TAB */}
                     {activeTab === 'courses' && (
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                            {/* List */}
-                            <div className="space-y-6">
-                                <h3 className="text-2xl font-black text-[#4E342E] mb-6">Existing Courses</h3>
-                                {courses.map(course => (
-                                    <div key={course._id} className="flex gap-4 p-4 bg-gray-50 rounded-2xl items-center group">
-                                        {/* Image Fallback Logic */}
-                                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-red-100 flex-shrink-0 relative">
-                                            <img
-                                                src={course.image}
-                                                alt=""
-                                                className="w-full h-full object-cover"
-                                                onError={(e) => e.target.style.display = 'none'} // Hide img on error
-                                            />
-                                            {/* Fallback Text Overlay (Always there, but covered by img if valid) */}
-                                            <div className="absolute inset-0 flex items-center justify-center bg-[#4E342E] text-white p-1 text-center text-[8px] font-bold z-0 leading-tight">
-                                                {course.title}
-                                            </div>
-                                        </div>
-
-                                        <div className="flex-1">
-                                            <h4 className="font-bold text-[#4E342E]">{course.title}</h4>
-                                            <span className="text-xs font-bold text-gray-400 uppercase">{course.category}</span>
-                                        </div>
+                        <>
+                            {/* If a course is selected for editing content, show content editor */}
+                            {selectedCourseForContent ? (
+                                <div className="space-y-8">
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="text-2xl font-black text-[#4E342E]">Manage Content: <span className="text-red-500">{selectedCourseForContent.title}</span></h3>
                                         <button
-                                            onClick={() => handleDeleteCourse(course._id)}
-                                            className="p-2 bg-white text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-colors shadow-sm"
-                                            title="Delete Course"
+                                            onClick={() => setSelectedCourseForContent(null)}
+                                            className="text-gray-400 hover:text-black font-bold"
                                         >
-                                            🗑️
+                                            ✕ Close
                                         </button>
                                     </div>
-                                ))}
-                            </div>
 
-                            {/* Create Form */}
-                            <div>
-                                <h3 className="text-2xl font-black text-[#4E342E] mb-6">Create New Course</h3>
-                                <form onSubmit={handleCreateCourse} className="space-y-4">
-                                    <input type="text" placeholder="Course Title" required
-                                        className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
-                                        value={newCourse.title} onChange={e => setNewCourse({ ...newCourse, title: e.target.value })}
-                                    />
-                                    <input type="text" placeholder="Image URL (e.g. /images/cake.jpg)" required
-                                        className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
-                                        value={newCourse.image} onChange={e => setNewCourse({ ...newCourse, image: e.target.value })}
-                                    />
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <input type="text" placeholder="Category" required
-                                            className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
-                                            value={newCourse.category} onChange={e => setNewCourse({ ...newCourse, category: e.target.value })}
-                                        />
-                                        <input type="text" placeholder="Duration (e.g. 4 Weeks)" required
-                                            className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
-                                            value={newCourse.duration} onChange={e => setNewCourse({ ...newCourse, duration: e.target.value })}
-                                        />
+                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                                        {/* Existing Chapters List */}
+                                        <div className="bg-gray-50 rounded-3xl p-6">
+                                            <h4 className="font-bold text-lg mb-4 text-[#4E342E]">Current Chapters</h4>
+                                            {selectedCourseForContent.syllabus && selectedCourseForContent.syllabus.length > 0 ? (
+                                                <div className="space-y-3">
+                                                    {selectedCourseForContent.syllabus.map((chapter, idx) => (
+                                                        <div key={idx} className="bg-white p-4 rounded-xl flex items-center justify-between shadow-sm">
+                                                            <div>
+                                                                <div className="font-bold text-[#4E342E]">{idx + 1}. {chapter.title}</div>
+                                                                <div className="text-xs text-gray-400">{chapter.duration || 'No duration'} • {chapter.type || 'Video'}</div>
+                                                            </div>
+                                                            {/* Placeholder for delete chapter (future) */}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="text-gray-400 italic">No chapters added yet.</div>
+                                            )}
+                                        </div>
+
+                                        {/* Add New Chapter Form */}
+                                        <div className="space-y-6">
+                                            <h4 className="font-bold text-lg text-[#4E342E]">Add New Chapter</h4>
+                                            <form onSubmit={handleAddContent} className="space-y-4">
+                                                <div className="space-y-2">
+                                                    <label className="text-xs font-bold uppercase text-gray-400">Chapter Title</label>
+                                                    <input
+                                                        type="text"
+                                                        value={contentForm.title}
+                                                        onChange={e => setContentForm({ ...contentForm, title: e.target.value })}
+                                                        className="w-full p-3 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                        placeholder="e.g. Week 1: Introduction"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-xs font-bold uppercase text-gray-400">Video URL (YouTube/MP4)</label>
+                                                    <input
+                                                        type="text"
+                                                        value={contentForm.videoUrl}
+                                                        onChange={e => setContentForm({ ...contentForm, videoUrl: e.target.value })}
+                                                        className="w-full p-3 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                        placeholder="https://..."
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-xs font-bold uppercase text-gray-400">Duration</label>
+                                                    <input
+                                                        type="text"
+                                                        value={contentForm.duration}
+                                                        onChange={e => setContentForm({ ...contentForm, duration: e.target.value })}
+                                                        className="w-full p-3 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                        placeholder="e.g. 15 mins"
+                                                    />
+                                                </div>
+                                                <button type="submit" className="w-full bg-[#4E342E] text-white py-3 rounded-xl font-black hover:bg-black transition-colors">
+                                                    + Add Chapter
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <input type="number" placeholder="Online Price (₹)" required
-                                            className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
-                                            value={newCourse.onlinePrice} onChange={e => setNewCourse({ ...newCourse, onlinePrice: e.target.value })}
-                                        />
-                                        <input type="number" placeholder="Offline Price (₹)" required
-                                            className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
-                                            value={newCourse.offlinePrice} onChange={e => setNewCourse({ ...newCourse, offlinePrice: e.target.value })}
-                                        />
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                                    {/* List */}
+                                    <div className="space-y-6">
+                                        <h3 className="text-2xl font-black text-[#4E342E] mb-6">Existing Courses</h3>
+                                        {courses.map(course => (
+                                            <div key={course._id} className="flex gap-4 p-4 bg-gray-50 rounded-2xl items-center group">
+                                                {/* Image Fallback Logic */}
+                                                <div className="w-16 h-16 rounded-xl overflow-hidden bg-red-100 flex-shrink-0 relative">
+                                                    <img
+                                                        src={course.image}
+                                                        alt=""
+                                                        className="w-full h-full object-cover"
+                                                        onError={(e) => e.target.style.display = 'none'} // Hide img on error
+                                                    />
+                                                    {/* Fallback Text Overlay (Always there, but covered by img if valid) */}
+                                                    <div className="absolute inset-0 flex items-center justify-center bg-[#4E342E] text-white p-1 text-center text-[8px] font-bold z-0 leading-tight">
+                                                        {course.title}
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex-1">
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        <h4 className="font-bold text-[#4E342E]">{course.title}</h4>
+                                                    </div>
+                                                    <span className="text-xs font-bold text-gray-400 uppercase">{course.category} • {course.syllabus?.length || 0} items</span>
+                                                </div>
+
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        onClick={() => setSelectedCourseForContent(course)}
+                                                        className="px-3 py-2 bg-white text-[#4E342E] text-xs font-bold rounded-xl hover:bg-[#4E342E] hover:text-white transition-colors shadow-sm"
+                                                        title="Manage Content"
+                                                    >
+                                                        📹 Content
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDeleteCourse(course._id)}
+                                                        className="p-2 bg-white text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-colors shadow-sm"
+                                                        title="Delete Course"
+                                                    >
+                                                        🗑️
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
-                                    <textarea placeholder="Description" required rows="3"
-                                        className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500 resize-none"
-                                        value={newCourse.description} onChange={e => setNewCourse({ ...newCourse, description: e.target.value })}
-                                    ></textarea>
-                                    <button type="submit" className="w-full bg-[#4E342E] text-white py-4 rounded-xl font-black text-lg hover:bg-black transition-colors cursor-pointer">
-                                        Create Course
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+
+                                    {/* Create Form */}
+                                    <div>
+                                        <h3 className="text-2xl font-black text-[#4E342E] mb-6">Create New Course</h3>
+                                        <form onSubmit={handleCreateCourse} className="space-y-4">
+                                            <input type="text" placeholder="Course Title" required
+                                                className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                value={newCourse.title} onChange={e => setNewCourse({ ...newCourse, title: e.target.value })}
+                                            />
+                                            <input type="text" placeholder="Image URL (e.g. /images/cake.jpg)" required
+                                                className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                value={newCourse.image} onChange={e => setNewCourse({ ...newCourse, image: e.target.value })}
+                                            />
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <input type="text" placeholder="Category" required
+                                                    className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                    value={newCourse.category} onChange={e => setNewCourse({ ...newCourse, category: e.target.value })}
+                                                />
+                                                <input type="text" placeholder="Duration (e.g. 4 Weeks)" required
+                                                    className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                    value={newCourse.duration} onChange={e => setNewCourse({ ...newCourse, duration: e.target.value })}
+                                                />
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <input type="number" placeholder="Online Price (₹)" required
+                                                    className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                    value={newCourse.onlinePrice} onChange={e => setNewCourse({ ...newCourse, onlinePrice: e.target.value })}
+                                                />
+                                                <input type="number" placeholder="Offline Price (₹)" required
+                                                    className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                    value={newCourse.offlinePrice} onChange={e => setNewCourse({ ...newCourse, offlinePrice: e.target.value })}
+                                                />
+                                            </div>
+                                            <textarea placeholder="Description" required rows="3"
+                                                className="w-full p-4 bg-gray-50 rounded-xl font-bold focus:outline-none focus:ring-2 focus:ring-red-500 resize-none"
+                                                value={newCourse.description} onChange={e => setNewCourse({ ...newCourse, description: e.target.value })}
+                                            ></textarea>
+                                            <button type="submit" className="w-full bg-[#4E342E] text-white py-4 rounded-xl font-black text-lg hover:bg-black transition-colors cursor-pointer">
+                                                Create Course
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            )}
+                        </>
                     )}
 
                     {/* ENROLLMENT TAB */}

@@ -166,4 +166,46 @@ const manualEnrollCourse = async (req, res) => {
     }
 };
 
-export { getCourses, getCourseById, enrollCourse, createCourse, deleteCourse, manualEnrollCourse };
+// @desc    Add content/syllabus to a course
+// @route   POST /api/courses/:id/content
+// @access  Private/Admin
+const addCourseContent = async (req, res) => {
+    const { title, videoUrl, duration } = req.body;
+
+    try {
+        const course = await Course.findById(req.params.id);
+
+        if (course) {
+            const newContent = {
+                title,
+                image: videoUrl || 'placeholder.jpg', // Using videoUrl for image field if no image provided (simplified for now)
+                duration: duration || '10 mins'
+            };
+
+            // Assuming model has specific fields, but looking at Course.js, syllabus is [{title, image}].
+            // We need to adapt. The user wants "Chapters" (Title + Video Link).
+            // Let's check the schema again in a moment, but for now we push what we can.
+            // Wait, the schema has {title, image} in syllabus. It lacks videoUrl specific to chapter.
+            // I will update the schema in the next step to support videoUrl in syllabus items.
+            // For now, I'll store videoUrl in the 'image' field or add a new field.
+
+            // Actually, let's update the controller to match the PLANNED schema update.
+            course.syllabus.push({
+                title,
+                image: videoUrl || '', // Storing URL here for now, or we update schema
+                type: 'video', // Metadata
+                duration
+            });
+
+            await course.save();
+            res.json({ message: 'Content added', syllabus: course.syllabus });
+        } else {
+            res.status(404);
+            throw new Error('Course not found');
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export { getCourses, getCourseById, enrollCourse, createCourse, deleteCourse, manualEnrollCourse, addCourseContent };
