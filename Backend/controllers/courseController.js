@@ -107,6 +107,7 @@ const createCourse = async (req, res) => {
                 online: onlinePrice,
                 offline: offlinePrice,
             },
+            price: onlinePrice, // Default to online price for sorting/display
             syllabus: [], // Empty initially
         });
 

@@ -159,8 +159,8 @@ export default function AdminDashboardPage() {
                             key={tab}
                             onClick={() => setActiveTab(tab)}
                             className={`px-8 py-3 rounded-2xl font-black uppercase tracking-wider text-sm transition-all whitespace-nowrap ${activeTab === tab
-                                    ? "bg-[#4E342E] text-white shadow-lg scale-105"
-                                    : "bg-white text-gray-400 hover:bg-red-50 hover:text-red-500"
+                                ? "bg-[#4E342E] text-white shadow-lg scale-105"
+                                : "bg-white text-gray-400 hover:bg-red-50 hover:text-red-500"
                                 }`}
                         >
                             {tab}
@@ -209,7 +209,20 @@ export default function AdminDashboardPage() {
                                 <h3 className="text-2xl font-black text-[#4E342E] mb-6">Existing Courses</h3>
                                 {courses.map(course => (
                                     <div key={course._id} className="flex gap-4 p-4 bg-gray-50 rounded-2xl items-center group">
-                                        <img src={course.image} alt="" className="w-16 h-16 rounded-xl object-cover" />
+                                        {/* Image Fallback Logic */}
+                                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-red-100 flex-shrink-0 relative">
+                                            <img
+                                                src={course.image}
+                                                alt=""
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => e.target.style.display = 'none'} // Hide img on error
+                                            />
+                                            {/* Fallback Text Overlay (Always there, but covered by img if valid) */}
+                                            <div className="absolute inset-0 flex items-center justify-center bg-[#4E342E] text-white p-1 text-center text-[8px] font-bold z-0 leading-tight">
+                                                {course.title}
+                                            </div>
+                                        </div>
+
                                         <div className="flex-1">
                                             <h4 className="font-bold text-[#4E342E]">{course.title}</h4>
                                             <span className="text-xs font-bold text-gray-400 uppercase">{course.category}</span>

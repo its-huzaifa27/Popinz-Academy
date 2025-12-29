@@ -7,13 +7,12 @@ const courseSchema = mongoose.Schema(
             required: true,
         },
         category: {
-            type: String,
-            enum: ['Foundation', 'Advance'],
+            type: String, // Removed enum for flexibility
             required: true,
         },
         level: {
             type: String,
-            required: true,
+            default: 'Beginner', // Added default
         },
         tagline: {
             type: String,
