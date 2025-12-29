@@ -25,7 +25,7 @@ const authUser = async (req, res) => {
                 fullName: user.fullName,
                 email: user.email,
                 phone: user.phone,
-                role: user.role,
+                role: (process.env.ADMIN_EMAILS && process.env.ADMIN_EMAILS.split(',').includes(user.email)) ? 'admin' : user.role,
                 token: generateToken(user._id),
             });
         } else {
