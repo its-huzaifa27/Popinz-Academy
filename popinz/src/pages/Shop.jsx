@@ -16,7 +16,7 @@ export default function Shop() {
             <Header />
 
             {/* Hero Section */}
-            <section className="pt-40 pb-20 bg-gradient-to-l from-red-500 to-[#d84315] text-white px-6 overflow-hidden">
+            <section className="pt-40 pb-20 bg-gradient-to-l from-red-500 to-[#ffe785] text-white px-6 overflow-hidden">
                 <div className="max-w-6xl mx-auto text-center relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
