@@ -8,7 +8,7 @@ import EnrollPage from './pages/EnrollPage'
 const HomePage = lazy(() => import('./pages/HomePage').then(module => ({ default: module.HomePage })))
 const AboutUs = lazy(() => import('./pages/AboutUs').then(module => ({ default: module.AboutUs })))
 const AllCourses = lazy(() => import('./pages/AllCourses'))
-const Blog = lazy(() => import('./pages/Blog'))
+// const Blog = lazy(() => import('./pages/Blog'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Shop = lazy(() => import('./pages/Shop'))
 const LoginPage = lazy(() => import('./pages/LoginPage'))
@@ -54,7 +54,7 @@ function App() {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/all-courses" element={<AllCourses />} />
           <Route path="/course-content/:courseId" element={<CourseContentPage />} />
-          <Route path="/blog" element={<Blog />} />
+          {/* <Route path="/blog" element={<Blog />} /> */}
           <Route path="/contact" element={<Contact />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/login" element={<LoginPage />} />

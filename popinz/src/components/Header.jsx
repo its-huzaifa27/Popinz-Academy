@@ -10,7 +10,7 @@ export function Header() {
         { name: "All Courses", path: '/all-courses' },
         { name: "Shop", path: '/shop' },
         { name: "About Us", path: '/about-us' },
-        { name: "Blog", path: '/blog' },
+        // { name: "Blog", path: '/blog' },
         { name: "Contact", path: "/contact" }
     ]
 
