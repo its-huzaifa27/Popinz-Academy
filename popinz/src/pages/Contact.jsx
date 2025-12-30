@@ -77,7 +77,7 @@ export default function Contact() {
                                     </div>
                                     <div>
                                         <p className="text-xs uppercase tracking-widest font-black text-gray-400 mb-1">Call Us</p>
-                                        <p className="text-xl font-bold text-[#4E342E]">+91 98765 43210</p>
+                                        <p className="text-xl font-bold text-[#4E342E]">+91 9373284417</p>
                                     </div>
                                 </div>
 
@@ -90,7 +90,7 @@ export default function Contact() {
                                     </div>
                                     <div>
                                         <p className="text-xs uppercase tracking-widest font-black text-gray-400 mb-1">Email Us</p>
-                                        <p className="text-xl font-bold text-[#4E342E]">hello@popinz.com</p>
+                                        <p className="text-xl font-bold text-[#4E342E]">popinzbakers@gmail.com</p>
                                     </div>
                                 </div>
 
