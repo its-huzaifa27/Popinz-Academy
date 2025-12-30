@@ -99,9 +99,9 @@ export default function CourseContentPage() {
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.05 }}
                                 whileHover={{ y: -5 }}
-                                className="bg-white rounded-[2rem] p-4 shadow-xl hover:shadow-2xl transition-all duration-300 border border-[#4E342E]/5 group cursor-pointer h-full flex flex-col"
+                                className="bg-white rounded-4xl p-4 shadow-xl hover:shadow-2xl transition-all duration-300 border border-[#4E342E]/5 group cursor-pointer h-full flex flex-col"
                             >
-                                <div className="aspect-square rounded-[1.5rem] overflow-hidden mb-4 relative bg-gray-50">
+                                <div className="aspect-square rounded-4xl overflow-hidden mb-4 relative bg-gray-50">
                                     <img
                                         src={item.image}
                                         alt={item.title}
