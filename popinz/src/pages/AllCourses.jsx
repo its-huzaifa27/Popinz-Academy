@@ -187,7 +187,7 @@ export default function AllCourses() {
                                     {/* Tagline Overlay */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-100 transition-opacity duration-500" />
                                     <div className="absolute bottom-6 left-6 text-white translate-y-0 transition-all duration-500 max-w-[80%]">
-                                        <p className="font-['Dancing_Script',cursive] text-2xl leading-tight text-amber-300">
+                                        <p className="font-['Dancing_Script',cursive] text-2xl leading-tight text-amber-300 whitespace-pre-line">
                                             {course.tagline}
                                         </p>
                                     </div>

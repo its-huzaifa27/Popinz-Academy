@@ -1,9 +1,17 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function Header() {
     const [scrolled, setScrolled] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // Close mobile menu when route changes
+    useEffect(() => {
+        setIsOpen(false);
+    }, [location]);
 
     const navigations = [
         { name: 'Home', path: '/' },
@@ -92,7 +100,91 @@ export function Header() {
                         </div>
                     )}
                 </div>
+                {/* Mobile Menu Button */}
+                <button
+                    className="md:hidden text-red-500 p-2 z-50 relative"
+                    onClick={() => setIsOpen(!isOpen)}
+                >
+                    <div className="w-6 h-5 flex flex-col justify-between">
+                        <motion.span
+                            animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+                            className="w-full h-0.5 bg-current rounded-full origin-center"
+                        />
+                        <motion.span
+                            animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
+                            className="w-full h-0.5 bg-current rounded-full"
+                        />
+                        <motion.span
+                            animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+                            className="w-full h-0.5 bg-current rounded-full origin-center"
+                        />
+                    </div>
+                </button>
             </div>
+
+            {/* Mobile Navigation Overlay */}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "100vh" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="fixed inset-0 bg-[#FFF8F0] z-40 md:hidden pt-24 px-6 flex flex-col items-center gap-8"
+                    >
+                        <nav className="w-full">
+                            <ul className="flex flex-col gap-6 text-center">
+                                {navigations.map((item, idx) => (
+                                    <motion.li
+                                        key={item.name}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.1 + idx * 0.1 }}
+                                    >
+                                        <Link
+                                            to={item.path}
+                                            className="text-2xl font-bold text-[#4E342E] hover:text-red-500 transition-colors"
+                                        >
+                                            {item.name}
+                                        </Link>
+                                    </motion.li>
+                                ))}
+                            </ul>
+                        </nav>
+
+                        {/* Mobile Auth Buttons */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.3 }}
+                            className="flex flex-col w-full gap-4 max-w-xs"
+                        >
+                            {!localStorage.getItem('authToken') ? (
+                                <>
+                                    <button
+                                        onClick={() => navigate('/login')}
+                                        className="w-full py-3 rounded-full border-2 border-red-500 text-red-500 font-bold"
+                                    >
+                                        Login
+                                    </button>
+                                    <button
+                                        onClick={() => navigate('/signup')}
+                                        className="w-full py-3 rounded-full bg-red-500 text-white font-bold"
+                                    >
+                                        Join Today
+                                    </button>
+                                </>
+                            ) : (
+                                <button
+                                    onClick={() => navigate('/dashboard')}
+                                    className="w-full py-3 rounded-full bg-[#4E342E] text-white font-bold"
+                                >
+                                    Dashboard
+                                </button>
+                            )}
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </header>
     )
 }

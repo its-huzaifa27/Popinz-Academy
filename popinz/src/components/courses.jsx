@@ -58,7 +58,7 @@ export function Courses() {
                             whileInView={{ y: 0, opacity: 1 }}
                             transition={{ duration: 0.8, ease: "easeOut", delay: (index + 1) * 0.2 }}
                             viewport={{ once: false, amount: 0.1 }}
-                            className="bg-[#3E2723] rounded-3xl overflow-hidden h-[550px] shadow-2xl hover:shadow-[0_20px_40px_-5px_rgba(0,0,0,0.4)] transition-all duration-500 group transform hover:-translate-y-2 border border-white/5 cursor-pointer"
+                            className="bg-[#3E2723] rounded-3xl overflow-hidden h-[480px] md:h-[550px] shadow-2xl hover:shadow-[0_20px_40px_-5px_rgba(0,0,0,0.4)] transition-all duration-500 group transform hover:-translate-y-2 border border-white/5 cursor-pointer"
                         >
                             {/* Image - 60% */}
                             <div className="h-[60%] w-full overflow-hidden relative">
@@ -75,14 +75,14 @@ export function Courses() {
                             {/* Content - 40% */}
                             <div className="h-[40%] p-8 flex flex-col justify-between relative">
                                 <div>
-                                    <h3 className="text-2xl font-bold text-[#F5F5F5] mb-3 group-hover:text-red-400 transition-colors line-clamp-1">
+                                    <h3 className="text-xl md:text-2xl font-bold text-[#F5F5F5] mb-3 group-hover:text-red-400 transition-colors line-clamp-1">
                                         {course.title}
                                     </h3>
                                     <p className="text-gray-300 text-sm leading-relaxed line-clamp-2">
                                         {course.desc}
                                     </p>
                                 </div>
-                                <button className="w-full bg-white hover:bg-red-600 hover:text-white text-red-500 py-2.5 rounded-xl font-bold transition-all shadow-lg hover:shadow-red-500/30 flex items-center justify-center gap-2 group-hover:bg-white group-hover:text-red-600 cursor-pointer" onClick={() => {navigate('/enroll')}}>
+                                <button className="w-full bg-white hover:bg-red-600 hover:text-white text-red-500 py-2.5 rounded-xl font-bold transition-all shadow-lg hover:shadow-red-500/30 flex items-center justify-center gap-2 group-hover:bg-white group-hover:text-red-600 cursor-pointer" onClick={() => { navigate('/enroll') }}>
                                     Enroll Now
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 group-hover:translate-x-1 transition-transform">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />

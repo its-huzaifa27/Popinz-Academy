@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @tailwind utilities;
+
 :root {
   font-family: "Montserrat", sans-serif;
 }
@@ -10,12 +11,13 @@ body {
 
 @layer components {
   .btn-universal {
-      background-color: #fb2c36;   
-      color: white;
+    background-color: #fb2c36;
+    color: white;
   }
-  .btn-universal:hover{
-  }
-  .pages-headings{
-    @apply text-4xl md:text-[52px];
+
+  .btn-universal:hover {}
+
+  .pages-headings {
+    @apply text-3xl md:text-[52px];
   }
 }
