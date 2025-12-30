@@ -35,7 +35,7 @@ export const coursesData = [
         title: "Advanced Masterclass",
         category: "Advance",
         level: "Pro",
-        tagline: "Transform your PASSION to Business..",
+        tagline: "Transform your Passion to Business",
         description: "Elevate your skills to a professional level. Master intricate designs, wedding cakes, fondant work, and advanced chocolate techniques.",
         duration: "1 Month (4 Days/Week)",
         pricing: {

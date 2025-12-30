@@ -21,7 +21,7 @@ export function About() {
                             transition={{ duration: 1, ease: "easeOut" }}
                             className="text-2xl md:text-xl text-[#351e15] font-bold leading-relaxed"
                         >
-                            I am Nicole, a professional baker with over 10 years of experience creating sweet moments and delicious treats for every occasion.
+                            I am Fahmeeda Momin, a Cake Chef with over 10 years of experience creating sweet moments and delicious treats for every occasion.
                         </motion.p>
 
                         <div className="pt-4">
@@ -43,10 +43,10 @@ export function About() {
                             initial={{ opacity: 0, x: 30 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 1, delay: 0.3 }}
-                            className="p-10 bg-pink-200 backdrop-blur-md rounded-[2.5rem] border border-white/10 shadow-2xl relative"
+                            className="p-10 bg-pink-200 backdrop-blur-md rounded-[2.5rem] border border-white/10 relative"
                         >
-                            <p className="text-xl text-black leading-relaxed font-light italic">
-                                "Baking is not just about ingredients; it's about the love and creativity you pour into every creation. Join us on a journey to master the delicate art of patisserie and discover the joy of creating something truly magical from scratch."
+                            <p className="text-xl text-black leading-relaxed font-light italic text-justify">
+                                "Baking isn't just about mixing ingredients; it's about the love and creativity you pour into every creation. Join us on a journey to master the delicate art of patisserie and discover the joy of creating something truly magical from scratch."
                             </p>
                         </motion.div>
                     </div>
@@ -62,7 +62,7 @@ export function About() {
                         viewport={{ once: false, amount: 0.3 }}
                         className="group flex flex-col rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-500 transform hover:-translate-y-1 bg-white h-full"
                     >
-                        <div className="h-[350px] overflow-hidden">
+                        <div className="h-[280px] overflow-hidden">
                             <img
                                 src={person1}
                                 alt="Baker portrait"
@@ -71,9 +71,9 @@ export function About() {
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                             />
                         </div>
-                        <div className="p-6 flex-grow flex items-center">
-                            <p className="text-[#f26833] text-base leading-relaxed font-medium ">
-                                A passionate baking teacher with over 10 years of hands-on experience in professional kitchens and classrooms. Skilled in teaching foundational to advanced baking techniques, recipe development, food safety, and creative presentation, while inspiring students to build confidence and successful careers in baking.
+                        <div className="p-6 h-[220px] flex items-center">
+                            <p className="text-[#f26833] text-base leading-relaxed font-medium text-justify">
+                                With over 10 years of experience, I teach foundation to advanced techniques, recipe development, and food safety, inspiring students to build successful baking careers.
                             </p>
                         </div>
                     </motion.div>
@@ -84,9 +84,9 @@ export function About() {
                         whileInView={{ y: 0, opacity: 1 }}
                         transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
                         viewport={{ once: false, amount: 0.3 }}
-                        className="group  flex flex-col rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-500 transform hover:-translate-y-1 mt-0 md:mt-12 bg-white h-full"
+                        className="group  flex flex-col rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-500 transform hover:-translate-y-1 bg-white h-full"
                     >
-                        <div className="h-[350px] overflow-hidden">
+                        <div className="h-[280px] overflow-hidden">
                             <img
                                 src={person2}
                                 alt="Baking in action"
@@ -95,9 +95,9 @@ export function About() {
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                             />
                         </div>
-                        <div className="p-6 flex-grow flex items-center">
-                            <p className="text-[#93c123] text-base leading-relaxed font-medium">
-                                I believe baking is both a skill and an art. I focus on simple methods, clear techniques, and hands-on learning. My teaching style helps students gain confidence, master consistency, and create bakery-quality products with creativity and precision.
+                        <div className="p-6 h-[220px] flex items-center">
+                            <p className="text-[#f26833] text-base leading-relaxed font-medium text-justify">
+                                Baking is a skill and an art. I focus on simple methods and hands-on learning, helping students gain confidence to create bakery-quality products with precision.
                             </p>
                         </div>
                     </motion.div>
@@ -110,7 +110,7 @@ export function About() {
                         viewport={{ once: false, amount: 0.3 }}
                         className="group flex flex-col rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-500 transform hover:-translate-y-1 bg-white h-full"
                     >
-                        <div className="h-[350px] overflow-hidden">
+                        <div className="h-[280px] overflow-hidden">
                             <img
                                 src={person3}
                                 alt="Our creations"
@@ -119,14 +119,14 @@ export function About() {
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                             />
                         </div>
-                        <div className="p-6 flex-grow flex items-center">
-                            <p className="text-[#f7adaf] text-base leading-relaxed font-medium">
-                                As a dedicated baking mentor, I emphasize practical knowledge, hygiene, and presentation. I enjoy guiding learners step by step, encouraging experimentation, and helping them develop their own baking style while building discipline and passion for professional baking.
+                        <div className="p-6 h-[220px] flex items-center">
+                            <p className="text-[#f26833] text-base leading-relaxed font-medium text-justify">
+                                As a dedicated mentor, I emphasize practical knowledge and presentation. I guide learners to develop their own style, building discipline and passion for baking excellence.
                             </p>
                         </div>
                     </motion.div>
                 </div>
-            </div>
-        </section>
+            </div >
+        </section >
     )
 }

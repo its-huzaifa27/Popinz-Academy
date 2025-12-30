@@ -10,7 +10,7 @@ const testimonials = [
         name: "Sara Ansari",
         role: "House Wife",
         image: person1,
-        text: "I never thought I could bake a perfect macaron until I took Nicole's masterclass. Her patience and detailed instructions made all the difference. Now I'm taking orders for weddings!"
+        text: "I never thought I could bake a perfect macaron until I took Fahmeeda Momin's masterclass. Her patience and detailed instructions made all the difference. Now I'm taking orders for weddings!"
     },
     {
         id: 2,
@@ -61,7 +61,7 @@ export function Testimonial() {
                 </div>
                 <div className="relative h-[400px] flex items-center justify-center">
                     <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 rounded-3xl max-w-3xl w-full flex flex-col md:flex-row gap-8 items-center">
-                        <div className="flex-shrink-0">
+                        <div className="shrink-0">
                             <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-red-500 shadow-xl">
                                 <img
                                     src={testimonials[currentIndex].image}
