@@ -15,8 +15,6 @@ body {
     color: white;
   }
 
-  .btn-universal:hover {}
-
   .pages-headings {
     @apply text-3xl md:text-[52px];
   }

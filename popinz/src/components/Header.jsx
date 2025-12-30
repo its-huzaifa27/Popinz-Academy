@@ -36,7 +36,7 @@ export function Header() {
                 {/* Logo Section */}
                 <Link
                     to="/"
-                    className="flex-shrink-0 cursor-pointer group"
+                    className="shrink-0 cursor-pointer group"
                 >
                     <div className="h-[30px] md:h-[50px] overflow-hidden transition-transform group-hover:scale-105">
                         <img src="/images/logo2.png" alt="Popinz Logo" className="h-full w-auto object-contain" />
@@ -63,7 +63,7 @@ export function Header() {
                 </div>
 
                 {/* CTA Button */}
-                <div className="flex-shrink-0 flex gap-4 items-center">
+                <div className="shrink-0 flex gap-4 items-center">
                     {localStorage.getItem('authToken') ? (
                         <div className="flex gap-2 items-center">
                             <button

@@ -57,7 +57,7 @@ export default function AllCourses() {
                             <span className="inline-block text-red-500 font-bold tracking-[0.2em] uppercase text-xs mb-3">
                                 Premium Academy
                             </span>
-                            <h1 className="pages-headings font-black mb-4 tracking-tight leading-[1] text-white">
+                            <h1 className="pages-headings font-black mb-4 tracking-tight leading-none text-white">
                                 Explore Our <br />
                                 <span className="text-red-500">Academy</span>
                             </h1>
@@ -107,16 +107,16 @@ export default function AllCourses() {
                         </div>
 
                         {/* Artistic Irregular Masked Image Container - Resized to max-w-md */}
-                        <div className="relative w-full max-w-md mx-auto aspect-[4/5] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)] group border-4 border-[#3A251E] 
-                            [clip-path:polygon(4%_2%,_98%_6%,_94%_98%,_2%_92%)] hover:[clip-path:polygon(2%_1%,_99%_3%,_96%_99%,_1%_97%)] transition-all duration-700">
+                        <div className="relative w-full max-w-md mx-auto aspect-4/5 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)] group border-4 border-[#3A251E] 
+                            [clip-path:polygon(4%_2%,98%_6%,94%_98%,2%_92%)] hover:[clip-path:polygon(2%_1%,99%_3%,96%_99%,1%_97%)] transition-all duration-700">
                             <img
                                 src="/images/coursespageimg/cakebaker3.png"
                                 alt="Popinz Academy"
                                 decoding="async"
-                                className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-700"
+                                className="w-full h-full object-cover grayscale-15 group-hover:grayscale-0 transition-all duration-700"
                             />
                             {/* Artistic Grunge Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-tr from-[#3A251E]/30 to-transparent pointer-events-none mix-blend-multiply" />
+                            <div className="absolute inset-0 bg-linear-to-tr from-[#3A251E]/30 to-transparent pointer-events-none mix-blend-multiply" />
                             <div className="absolute inset-0 opacity-15 bg-[url('https://www.transparenttextures.com/patterns/paper.png')] pointer-events-none" />
                         </div>
 
@@ -173,7 +173,7 @@ export default function AllCourses() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.9 }}
                                 transition={{ duration: 0.5 }}
-                                className="group flex flex-col bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-[#4E342E]/5 h-full"
+                                className="group flex flex-col bg-white rounded-4xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-[#4E342E]/5 h-full"
                             >
                                 {/* Image Section with Tagline Overlay */}
                                 <div className="h-64 overflow-hidden relative">
@@ -185,7 +185,7 @@ export default function AllCourses() {
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                     />
                                     {/* Tagline Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-100 transition-opacity duration-500" />
+                                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-100 transition-opacity duration-500" />
                                     <div className="absolute bottom-6 left-6 text-white translate-y-0 transition-all duration-500 max-w-[80%]">
                                         <p className="font-['Dancing_Script',cursive] text-2xl leading-tight text-amber-300 whitespace-pre-line">
                                             {course.tagline}

@@ -46,7 +46,7 @@ export function Testimonial() {
     }, []);
 
     return (
-        <section className="relative w-full py-24 px-6 overflow-hidden min-h-[700px] flex items-center justify-center">
+        <section className="relative w-full py-16 px-6 overflow-hidden min-h-screen md:min-h-[700px] flex items-center justify-center">
             <div className="absolute inset-0 z-0">
                 <img src={image1} alt="Bakery Background" loading="lazy" decoding="async" className="w-full h-full object-cover scale-110 blur-[2px]" />
                 <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
@@ -65,8 +65,8 @@ export function Testimonial() {
                     </Reveal>
                 </div>
                 <Reveal width="100%" delay={0.4}>
-                    <div className="relative h-[400px] flex items-center justify-center">
-                        <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 rounded-3xl max-w-3xl w-full flex flex-col md:flex-row gap-8 items-center">
+                    <div className="relative min-h-[400px] flex items-center justify-center pb-12 md:pb-0">
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 rounded-3xl max-w-3xl w-full flex flex-col md:flex-row gap-8 items-center relative z-20">
                             <div className="shrink-0">
                                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-red-500 shadow-xl">
                                     <img
@@ -93,7 +93,7 @@ export function Testimonial() {
                             </div>
                         </div>
 
-                        <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-4 md:-px-12 pointer-events-none">
+                        <div className="absolute top-1/2 -translate-y-1/2 w-full hidden md:flex justify-between px-4 md:-px-12 pointer-events-none z-30">
                             <button
                                 onClick={prevTestimonial}
                                 className="pointer-events-auto bg-white/10 hover:bg-red-500 text-white p-3 rounded-full backdrop-blur-sm transition-all transform hover:scale-110 hover:shadow-lg group cursor-pointer"
@@ -112,7 +112,7 @@ export function Testimonial() {
                             </button>
                         </div>
 
-                        <div className="absolute -bottom-16 flex space-x-3">
+                        <div className="absolute -bottom-8 md:-bottom-16 flex space-x-3 z-30">
                             {testimonials.map((_, index) => (
                                 <button
                                     key={index}

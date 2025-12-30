@@ -15,7 +15,7 @@ export function Courses() {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
                         viewport={{ once: false, amount: 0.5 }}
-                        className="pages-headings font-extrabold text-[#F5F5F5] tracking-tight text-emerald-500"
+                        className="pages-headings font-extrabold text-[#F5F5F5] tracking-tight"
                     >
                         Our Courses
                     </motion.h2>
@@ -37,7 +37,7 @@ export function Courses() {
                             initial={{ scale: 0.9, opacity: 0 }}
                             whileInView={{ scale: 1, opacity: 1 }}
                             transition={{ duration: 0.5, delay: 0.4 }}
-                            className="flex-shrink-0"
+                            className="shrink-0"
                         >
                             <button
                                 onClick={() => navigate('/all-courses')}
@@ -69,7 +69,7 @@ export function Courses() {
                                     decoding="async"
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#3E2723] to-transparent opacity-60"></div>
+                                <div className="absolute inset-0 bg-linear-to-t from-[#3E2723] to-transparent opacity-60"></div>
                             </div>
 
                             {/* Content - 40% */}
