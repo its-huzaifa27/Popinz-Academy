@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Header } from "../components/Header";
+import { API_URL } from "../config";
 
 export default function ResetPasswordPage() {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function ResetPasswordPage() {
         setMessage("");
 
         try {
-            const response = await fetch(`http://localhost:5000/api/auth/reset-password/${token}`, {
+            const response = await fetch(`${API_URL}/api/auth/reset-password/${token}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

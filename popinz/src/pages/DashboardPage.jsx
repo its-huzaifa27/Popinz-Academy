@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Header } from "../components/Header";
+import { API_URL } from "../config";
 
 export default function DashboardPage() {
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function DashboardPage() {
             }
 
             try {
-                const response = await fetch('http://localhost:5000/api/users/profile', {
+                const response = await fetch(`${API_URL}/api/users/profile`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

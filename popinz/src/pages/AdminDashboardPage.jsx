@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "../components/Header";
+import { API_URL } from "../config";
 
 export default function AdminDashboardPage() {
     const navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function AdminDashboardPage() {
     const fetchInitialData = async () => {
         try {
             // Check Admin Status & Fetch Users
-            const userRes = await fetch('http://localhost:5000/api/users', {
+            const userRes = await fetch(`${API_URL}/api/users`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -51,7 +52,7 @@ export default function AdminDashboardPage() {
             setUsers(userData);
 
             // Fetch Courses
-            const courseRes = await fetch('http://localhost:5000/api/courses');
+            const courseRes = await fetch(`${API_URL}/api/courses`);
             const courseData = await courseRes.json();
             setCourses(courseData);
 
@@ -65,7 +66,7 @@ export default function AdminDashboardPage() {
     const handleCreateCourse = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:5000/api/courses', {
+            const res = await fetch(`${API_URL}/api/courses`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -90,7 +91,7 @@ export default function AdminDashboardPage() {
         if (!window.confirm("Are you sure? This action cannot be undone.")) return;
 
         try {
-            const res = await fetch(`http://localhost:5000/api/courses/${id}`, {
+            const res = await fetch(`${API_URL}/api/courses/${id}`, {
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -109,7 +110,7 @@ export default function AdminDashboardPage() {
     const handleManualEnroll = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:5000/api/courses/enroll-manual', {
+            const res = await fetch(`${API_URL}/api/courses/enroll-manual`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -135,7 +136,7 @@ export default function AdminDashboardPage() {
         if (!selectedCourseForContent) return;
 
         try {
-            const res = await fetch(`http://localhost:5000/api/courses/${selectedCourseForContent._id}/content`, {
+            const res = await fetch(`${API_URL}/api/courses/${selectedCourseForContent._id}/content`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

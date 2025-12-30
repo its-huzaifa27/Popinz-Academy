@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "../components/Header";
 import { Faq } from "../components/Faq";
 import { useState, useEffect } from "react";
+import { API_URL } from "../config";
 
 const categories = ["All", "Foundation", "Advance"];
 
@@ -15,7 +16,7 @@ export default function AllCourses() {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/courses');
+                const response = await fetch(`${API_URL}/api/courses`);
                 const data = await response.json();
                 setCourses(data);
             } catch (error) {

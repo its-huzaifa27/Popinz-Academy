@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 import { Header } from "../components/Header";
 import { useEffect, useState } from "react";
+import { API_URL } from "../config";
 
 export default function CourseContentPage() {
     const { courseId } = useParams();
@@ -16,7 +17,7 @@ export default function CourseContentPage() {
         const fetchCourse = async () => {
             try {
                 // Fetch using the ID from the URL (which is now likely the MongoDB _id)
-                const response = await fetch(`http://localhost:5000/api/courses/${courseId}`);
+                const response = await fetch(`${API_URL}/api/courses/${courseId}`);
                 if (response.ok) {
                     const data = await response.json();
                     setCourse(data);

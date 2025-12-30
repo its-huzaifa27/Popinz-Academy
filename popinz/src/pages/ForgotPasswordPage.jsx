@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Header } from "../components/Header";
+import { API_URL } from "../config";
 
 export default function ForgotPasswordPage() {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function ForgotPasswordPage() {
         setMessage("");
 
         try {
-            const response = await fetch('http://localhost:5000/api/auth/forgot-password', {
+            const response = await fetch(`${API_URL}/api/auth/forgot-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

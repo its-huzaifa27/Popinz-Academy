@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "../components/Header";
+import { API_URL } from "../config";
 
 // Mock Payment Methods
 const PAYMENT_METHODS = [
@@ -36,7 +37,7 @@ export default function EnrollPage() {
         if (courseId) {
             const fetchCourse = async () => {
                 try {
-                    const response = await fetch(`http://localhost:5000/api/courses/${courseId}`, {
+                    const response = await fetch(`${API_URL}/api/courses/${courseId}`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     if (response.ok) {
@@ -60,7 +61,7 @@ export default function EnrollPage() {
         try {
             await new Promise(resolve => setTimeout(resolve, 1500)); // Fake processing delay for UX
 
-            const res = await fetch('http://localhost:5000/api/courses/enroll', {
+            const res = await fetch(`${API_URL}/api/courses/enroll`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
